@@ -2,12 +2,12 @@
 What is the carbon emission impact of my Uber, Doordash, Air flights.
 
 
-comet - for visualzitaion
-venv - for setting up virtual enviroment (or conda?)
-flask - for running a server
-python (3.9+) - for computation
+- comet - for visualzitaion
+- venv - for setting up virtual enviroment (or conda?)
+- flask - for running a server
+- python (3.9+) - for computation
 
-potential dependencies?
+# potential dependencies?
     arrow
     click
     fief-client[cli]
@@ -23,22 +23,22 @@ potential dependencies?
     typer
 
 # Setup for Virtual Enviroment
-python3 -m venv backend_env
-cd ~/backend_env
-source backend_env/bin/activate #activate env within backend dir
+- `python3 -m venv backend_env`
+- `cd ~/backend_env`
+- `source backend_env/bin/activate` #activate env within backend dir
 
 # How to kill virtual env:
-# Exit the current environment deactivate
+- Exit the current environment deactivate
 deactivate
-# Remove the environment rm -rf ~/backend_env
+- Remove the environment rm -rf ~/backend_env
 
 
-key attributes:
+# key attributes:
 - net power consumption (kwh)
 - net carbon equivalent (kg. eq. CO2)
 - miles driven (miles)
 
-extra:
+# extra:
 - carbon footprint (same as net carbon eq. carbon dioxide equivalent" (CO2e) measures the global warming potential of a mixture of greenhouse gases.)
 - energy consumption (same as new power consumption)
 - carbon sequestration (it's the amount of CO2 sequestered by a tree in a month)
@@ -53,6 +53,6 @@ Carbon dioxide emissions (CO₂eq) can then be calculated as C * E
 **
 
 
-Acknowledgments:
+# Acknowledgments:
 
 Lannelongue, L., Grealey, J., Inouye, M., Green Algorithms: Quantifying the Carbon Footprint of Computation. Adv. Sci. 2021, 2100707. https://doi.org/10.1002/advs.202100707
