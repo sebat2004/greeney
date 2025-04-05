@@ -10,3 +10,4 @@ backend/__pycache__/
 
 # virtual environment
 backend/venv/
+credentials.json
