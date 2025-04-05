@@ -44,13 +44,13 @@ deactivate
 - carbon sequestration (it's the amount of CO2 sequestered by a tree in a month)
 - % of the flight from London to NY
 
-**
+
 C = Carbon Intensity of the electricity consumed for computation: quantified as g of CO₂ emitted per kilowatt-hour of electricity.
 
 E = Energy Consumed by the computational infrastructure: quantified as kilowatt-hours.
 
 Carbon dioxide emissions (CO₂eq) can then be calculated as C * E
-**
+
 
 
 # Acknowledgments:
