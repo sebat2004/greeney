@@ -1,12 +1,12 @@
 # misc
 .DS_Store
+.vscode/settings.json
 
 # node_modules
-./web-client/.node_modules
+web-client/node_modules/
 
 # python
-./backend/__pycache__/
-
+backend/__pycache__/
 
 # virtual environment
-./backend/venv/
+backend/venv/
