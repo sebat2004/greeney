@@ -1,2 +1,12 @@
 # misc
 .DS_Store
+
+# node_modules
+./web-client/.node_modules
+
+# python
+./backend/__pycache__/
+
+
+# virtual environment
+./backend/venv/
