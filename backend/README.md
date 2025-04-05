@@ -27,12 +27,10 @@ python-dotenv>=0.19.0
 gunicorn>=20.1.0
 
 # Setup for Virtual Enviroment
-- `python3 -m venv backend_env`
-- `cd ~/backend_env`
-- `source backend_env/bin/activate` #activate env within backend dir
-- `cd ..`
+- `python3 -m venv venv`
+- `source venv/bin/activate`
 - `pip install --upgrade pip`
-- `pip install requirements.txt`
+- `pip install -r requirements.txt`
 - `python app.py`
 
 # How to kill virtual env:
