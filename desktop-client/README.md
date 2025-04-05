@@ -1,0 +1,1 @@
+Electron client for analyzing electricity usage
