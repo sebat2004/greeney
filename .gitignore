@@ -10,3 +10,7 @@ backend/__pycache__/
 
 # virtual environment
 backend/venv/
+
+# gmail credentials
+backend/gmail/credentials.json
+backend/gmail/token.json
