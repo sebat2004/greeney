@@ -15,5 +15,6 @@ backend/pyenv
 backend/data/calculations_history.json
 credentials.json
 token.json
+.env
 
 *.env*

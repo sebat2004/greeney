@@ -14,11 +14,13 @@ import math
 import os
 import logging
 from typing import List, Dict, Any, Tuple, Optional
+from dotenv import load_dotenv
 
+load_dotenv()
 # Initialize Google Maps client if API key is available
 try:
     import googlemaps
-    GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
+    GOOGLE_API_KEY = os.getenv('GOOGLE_MAPS')
     if GOOGLE_API_KEY:
         gmaps = googlemaps.Client(key=GOOGLE_API_KEY)
     else:

@@ -10,7 +10,10 @@ from quickstart import process_email_info
 
 # Import calculator functions
 from calculator import calculate_emissions
+from dotenv import load_dotenv
 
+
+load_dotenv()
 # Set up logging to console
 logging.basicConfig(
     level=logging.INFO,
@@ -22,7 +25,7 @@ logging.basicConfig(
 logger = logging.getLogger('carbon_emissions')
 
 # Check for Google API key
-if not os.environ.get('GOOGLE_API_KEY'):
+if not os.getenv('GOOGLE_MAPS'):
     logger.warning("GOOGLE_API_KEY not found in environment variables. "
                  "Distance calculations for Uber Eats, DoorDash, and flights will not work correctly.")
     logger.warning("Set the API key with: export GOOGLE_API_KEY='your-api-key'")

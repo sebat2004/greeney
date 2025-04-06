@@ -3,9 +3,11 @@
 import requests
 import json
 import os
+from dotenv import load_dotenv
 
+load_dotenv()
 # Check if Google API key is set
-if not os.environ.get('GOOGLE_API_KEY'):
+if not os.getenv('GOOGLE_MAPS'):
     print("WARNING: GOOGLE_API_KEY environment variable is not set!")
     print("Airport and address distance calculations may not work correctly.")
     print("Set it with: export GOOGLE_API_KEY='your-api-key-here'\n")
