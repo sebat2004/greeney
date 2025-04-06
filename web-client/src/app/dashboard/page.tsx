@@ -2,8 +2,30 @@
 
 import { EmissionsBarChart } from '@/components/EmissionsBarChart';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useEffect } from 'react';
 
 export default function Dashboard() {
+    useEffect(() => {
+        fetch('/api/calculate-emissions/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Emissions calculated:', data);
+            })
+            .catch(error => {
+                console.error('Error calculating emissions:', error);
+            });
+    });
+
     return (
         <div className="flex flex-col xl:flex-row justify-between px-6 sm:px-10 py-5">
             {/* Charts Section */}

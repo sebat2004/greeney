@@ -65,6 +65,8 @@ def save_calculation(input_data, results):
     logger.info(f"Calculation saved. History now contains {len(history)} entries")
     return len(history)
 
+CORS(app)  # Enable CORS for all routes
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     """Main route for web interface (simplified for testing with single entries)"""
