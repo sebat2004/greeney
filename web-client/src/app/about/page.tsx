@@ -4,7 +4,7 @@ import greeney from '../../../public/greeneytransparent.png'
 export default function About() {
     return (
         <div className="max-w-3xl mx-auto p-6 font-sans">
-            <h1 className="text-4xl font-bold text-green-700 text-center mb-8">About Greeney</h1>
+            <h1 className="text-4xl font-bold text-green-400 text-center mb-8">About Greeney</h1>
             <div className="flex justify-center mt-10">
                 <img src={greeney.src} alt="Greeney" className="max-w-xs shadow-md rounded-lg" />
             </div>
