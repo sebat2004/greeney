@@ -106,7 +106,6 @@ def extract_lyft_ride_info(email_text):
 
 def extract_flight_info(email_text):
     """Extract flight information from airline confirmation emails"""
-    flight_segments = []
     VALID_AIRPORTS = {
         'ATL', 'LAX', 'ORD', 'DFW', 'DEN', 'JFK', 'SFO', 'SEA', 'LAS', 'MCO',
         'MIA', 'PHX', 'EWR', 'IAH', 'BOS', 'MSP', 'DTW', 'PHL', 'LGA', 'CLT',
@@ -119,22 +118,22 @@ def extract_flight_info(email_text):
         'LBB', 'COS', 'GEG', 'MSN', 'HSV', 'CID', 'CAE', 'PNS', 'DSM', 'SAV',
         'SBA', 'TYS', 'PWM', 'ECP', 'MYR', 'BZN', 'EUG', 'LGB', 'XNA', 'BTR',
     }
-    flight_segments.append({"type": "flight"})  
-
+    
     valid_codes = []
     for code in re.findall(r'\b([A-Z]{3})\b', email_text):
         if code in VALID_AIRPORTS:
             valid_codes.append(code)
-
+    
+    flight_data = {"type": "flight", "segments": []}
+    
     for i in range(0, len(valid_codes) - 1):
         origin, destination = valid_codes[i], valid_codes[i+1]
         if origin != destination:
             segment = {"origin": origin, "destination": destination}
-            if segment not in flight_segments:
-                flight_segments.append(segment)
-
-    return flight_segments
-
+            if segment not in flight_data["segments"]:
+                flight_data["segments"].append(segment)
+    
+    return flight_data
 
 def extract_receipt_info(email_text):
     """Determine email type and extract relevant information"""
@@ -153,8 +152,6 @@ def extract_receipt_info(email_text):
         return extract_flight_info(email_text)
     else:
         return {"error": "Unknown receipt type"}
-
-    
 
 def simple_get_body(msg):
     """A simpler approach to get the email body, might not work for all emails"""
@@ -199,58 +196,70 @@ def get_email_body(msg):
     return None
 
 def main():
-  """Shows basic usage of the Gmail API.
-  Lists the user's Gmail labels.
-  """
-  creds = None
-  # The file token.json stores the user's access and refresh tokens, and is
-  # created automatically when the authorization flow completes for the first
-  # time.
-  if os.path.exists("token.json"):
-    creds = Credentials.from_authorized_user_file("token.json", SCOPES)
-  # If there are no (valid) credentials available, let the user log in.
-  if not creds or not creds.valid:
-    if creds and creds.expired and creds.refresh_token:
-      creds.refresh(Request())
-    else:
-      flow = InstalledAppFlow.from_client_secrets_file(
-          "credentials.json", SCOPES
-      )
-      creds = flow.run_local_server(port=0)
-    # Save the credentials for the next run
-    with open("token.json", "w") as token:
-      token.write(creds.to_json())
+    """Shows basic usage of the Gmail API.
+    Lists the user's Gmail labels.
+    """
+    creds = None
+    # The file token.json stores the user's access and refresh tokens, and is
+    # created automatically when the authorization flow completes for the first
+    # time.
+    if os.path.exists("token.json"):
+        creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+    # If there are no (valid) credentials available, let the user log in.
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(
+                "credentials.json", SCOPES
+            )
+            creds = flow.run_local_server(port=0)
+        # Save the credentials for the next run
+        with open("token.json", "w") as token:
+            token.write(creds.to_json())
 
-  try:
-    # Call the Gmail API
-    service = build("gmail", "v1", credentials=creds)
-    results = service.users().messages().list(userId="me").execute()
-    messages = results.get("messages", [])
+    try:
+        # Call the Gmail API
+        service = build("gmail", "v1", credentials=creds)
+        results = service.users().messages().list(userId="me").execute()
+        messages = results.get("messages", [])
 
-    if not messages:
-      print("No messages found.")
-      return
-    valid = [] 
-    for message in messages:
-        # see https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages#Message
-        result = service.users().messages().get(userId="me",id=message['id']).execute()
-        # stuff is already in json but this should make more sense
-        snippet = result['snippet'].lower() 
-        #poggers regex
-        if re.search(r'doordash|uber receipt|lyft|confirmation|booking',snippet):
-            valid.append(result)
-    for msg in valid:
-        #print(f"\n--- Message ID: {msg['id']} ---")
-        #print(f"Snippet: {msg['snippet']}")
+        if not messages:
+            print("No messages found.")
+            return
+            
+        receipt_data = []
+        for message in messages:
+            # see https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages#Message
+            result = service.users().messages().get(userId="me",id=message['id']).execute()
+            # stuff is already in json but this should make more sense
+            snippet = result['snippet'].lower() 
+            # print(snippet)
+            
+            #poggers regex
+            if re.search(r'doordash|uber receipt|lyft|confirmation|booking',snippet):
+                body_text = simple_get_body(result)
+                info = extract_receipt_info(body_text)
+                
+                # Skip empty results
+                if info == {}:
+                    continue
+                    
+                # Extract date from snippet with a simple regex
+                date_match = re.search(r'date: (?:(?:mon|tue|wed|thu|fri|sat|sun), )?(.*?)(?= at)', snippet, re.IGNORECASE)
+                if date_match:
+                    info['date'] = date_match.group(1).strip()
+                
+                receipt_data.append(info)
         
-        # Try the simplified approach
-        body_text = simple_get_body(msg)
-        info = extract_receipt_info(body_text)
-        print(info) 
-  except HttpError as error:
-    # TODO(developer) - Handle errors from gmail API.
-    print(f"An error occurred: {error}")
-
+        # Write all data to a JSON file
+        if receipt_data:
+            with open("receipt_data.json", "w") as f:
+                json.dump(receipt_data, f, indent=4)
+    
+    except HttpError as error:
+        # TODO(developer) - Handle errors from gmail API.
+        print(f"An error occurred: {error}")
 
 if __name__ == "__main__":
   main()
