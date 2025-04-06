@@ -9,7 +9,8 @@ web-client/node_modules/
 backend/__pycache__/
 
 # virtual environment
-backend/venv/
+backend/venv
 backend/backend_env
+backend/pyenv
 credentials.json
 token.json
