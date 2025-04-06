@@ -57,6 +57,13 @@
             background-color: #e9f7ef;
             font-weight: bold;
         }
+        .coordinates {
+            font-family: monospace;
+            background-color: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 3px;
+            color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -488,6 +495,16 @@
                                                                 <strong>Emissions:</strong> {{ "%.2f"|format(segment.emissions) }} kg CO₂
                                                             </div>
                                                         </div>
+                                                        {% if segment.origin_info is defined and segment.origin_info.lat is defined %}
+                                                        <div class="row mt-2">
+                                                            <div class="col-md-6">
+                                                                <strong>Origin Coordinates:</strong> <span class="coordinates">{{ "%.4f"|format(segment.origin_info.lat) }}, {{ "%.4f"|format(segment.origin_info.lng) }}</span>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <strong>Destination Coordinates:</strong> <span class="coordinates">{{ "%.4f"|format(segment.destination_info.lat) }}, {{ "%.4f"|format(segment.destination_info.lng) }}</span>
+                                                            </div>
+                                                        </div>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                                 {% endfor %}
@@ -514,6 +531,16 @@
                                                         <strong>Emissions:</strong> {{ "%.2f"|format(flight.emissions) }} kg CO₂
                                                     </div>
                                                 </div>
+                                                {% if flight.origin_info.lat is defined and flight.destination_info.lat is defined %}
+                                                <div class="row mt-2">
+                                                    <div class="col-md-6">
+                                                        <strong>Origin Coordinates:</strong> <span class="coordinates">{{ "%.4f"|format(flight.origin_info.lat) }}, {{ "%.4f"|format(flight.origin_info.lng) }}</span>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <strong>Destination Coordinates:</strong> <span class="coordinates">{{ "%.4f"|format(flight.destination_info.lat) }}, {{ "%.4f"|format(flight.destination_info.lng) }}</span>
+                                                    </div>
+                                                </div>
+                                                {% endif %}
                                                 {% else %}
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -544,19 +571,56 @@
                         <div class="api-section mt-4">
                             <h5>API Response Format:</h5>
                             <pre><code>{
-  "uber_emissions": {{ "%.2f"|format(result.uber_emissions) if result.uber_emissions is defined else "null" }},
-  "uber_distance": {{ "%.2f"|format(result.uber_distance) if result.uber_distance is defined else "null" }},
-  "lyft_emissions": {{ "%.2f"|format(result.lyft_emissions) if result.lyft_emissions is defined else "null" }},
-  "lyft_distance": {{ "%.2f"|format(result.lyft_distance) if result.lyft_distance is defined else "null" }},
-  "uber_eats_emissions": {{ "%.2f"|format(result.uber_eats_emissions) if result.uber_eats_emissions is defined else "null" }},
-  "uber_eats_distance": {{ "%.2f"|format(result.uber_eats_distance) if result.uber_eats_distance is defined else "null" }},
-  "doordash_emissions": {{ "%.2f"|format(result.doordash_emissions) if result.doordash_emissions is defined else "null" }},
-  "doordash_distance": {{ "%.2f"|format(result.doordash_distance) if result.doordash_distance is defined else "null" }},
-  "flight_emissions": {{ "%.2f"|format(result.flight_emissions) if result.flight_emissions is defined else "null" }},
-  "flight_distance": {{ "%.2f"|format(result.flight_distance) if result.flight_distance is defined else "null" }},
+  "success": true,
   "total_emissions": {{ "%.2f"|format(result.total_emissions) }},
-  "trees_needed": {{ result.trees_needed }},
-  "london_ny_percentage": {{ "%.2f"|format(result.london_ny_percentage) }}
+  "categories": {
+    "uber_rides": {
+      "distance": {{ "%.2f"|format(result.uber_distance) if result.uber_distance is defined else "0.00" }},
+      "emissions": {{ "%.2f"|format(result.uber_emissions) if result.uber_emissions is defined else "0.00" }}
+    },
+    "lyft": {
+      "distance": {{ "%.2f"|format(result.lyft_distance) if result.lyft_distance is defined else "0.00" }},
+      "emissions": {{ "%.2f"|format(result.lyft_emissions) if result.lyft_emissions is defined else "0.00" }}
+    },
+    "uber_eats": {
+      "distance": {{ "%.2f"|format(result.uber_eats_distance) if result.uber_eats_distance is defined else "0.00" }},
+      "emissions": {{ "%.2f"|format(result.uber_eats_emissions) if result.uber_eats_emissions is defined else "0.00" }}
+    },
+    "doordash": {
+      "distance": {{ "%.2f"|format(result.doordash_distance) if result.doordash_distance is defined else "0.00" }},
+      "emissions": {{ "%.2f"|format(result.doordash_emissions) if result.doordash_emissions is defined else "0.00" }}
+    },
+    "flights": {
+      "distance": {{ "%.2f"|format(result.flight_distance) if result.flight_distance is defined else "0.00" }},
+      "emissions": {{ "%.2f"|format(result.flight_emissions) if result.flight_emissions is defined else "0.00" }},
+      "flights": [
+        {
+          "segments": [
+            {
+              "origin": {
+                "code": "XXX",
+                "latitude": 00.0000,
+                "longitude": 000.0000
+              },
+              "destination": {
+                "code": "YYY",
+                "latitude": 00.0000,
+                "longitude": 000.0000
+              },
+              "distance": 000.00,
+              "emissions": 000.00
+            }
+          ],
+          "total_distance": 000.00,
+          "total_emissions": 000.00
+        }
+      ]
+    }
+  },
+  "context": {
+    "trees_needed": {{ result.trees_needed }},
+    "london_ny_percentage": {{ "%.2f"|format(result.london_ny_percentage) }}
+  }
 }</code></pre>
                         </div>
                     </div>

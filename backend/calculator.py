@@ -1044,6 +1044,74 @@ def process_quickstart_data(entries: List[Dict[str, Any]]) -> Dict[str, Any]:
     
     return processed_data
 
+def process_flight_segments(flight_entry):
+    """
+    Process flight segments and extract detailed information including coordinates.
+    """
+    enhanced_flight = {
+        'segments': [],
+        'total_distance': flight_entry.get('distance', 0),
+        'total_emissions': flight_entry.get('emissions', 0)
+    }
+    
+    # Process segments if they exist
+    if 'segments' in flight_entry and flight_entry['segments']:
+        for segment in flight_entry['segments']:
+            segment_detail = {
+                'origin': {
+                    'code': segment.get('origin', ''),
+                },
+                'destination': {
+                    'code': segment.get('destination', ''),
+                },
+                'distance': segment.get('distance', 0),
+                'emissions': segment.get('emissions', 0)
+            }
+            
+            # Add coordinates if available
+            if 'origin_info' in segment and segment['origin_info']:
+                origin_info = segment['origin_info']
+                if 'lat' in origin_info and 'lng' in origin_info:
+                    segment_detail['origin']['latitude'] = origin_info['lat']
+                    segment_detail['origin']['longitude'] = origin_info['lng']
+            
+            if 'destination_info' in segment and segment['destination_info']:
+                dest_info = segment['destination_info']
+                if 'lat' in dest_info and 'lng' in dest_info:
+                    segment_detail['destination']['latitude'] = dest_info['lat']
+                    segment_detail['destination']['longitude'] = dest_info['lng']
+            
+            enhanced_flight['segments'].append(segment_detail)
+            
+    # If no segments but has origin/destination info directly
+    elif 'origin_info' in flight_entry and 'destination_info' in flight_entry:
+        segment_detail = {
+            'origin': {
+                'code': flight_entry.get('origin', ''),
+            },
+            'destination': {
+                'code': flight_entry.get('destination', ''),
+            },
+            'distance': flight_entry.get('distance', 0),
+            'emissions': flight_entry.get('emissions', 0)
+        }
+        
+        # Add coordinates
+        origin_info = flight_entry['origin_info']
+        dest_info = flight_entry['destination_info']
+        
+        if 'lat' in origin_info and 'lng' in origin_info:
+            segment_detail['origin']['latitude'] = origin_info['lat']
+            segment_detail['origin']['longitude'] = origin_info['lng']
+            
+        if 'lat' in dest_info and 'lng' in dest_info:
+            segment_detail['destination']['latitude'] = dest_info['lat']
+            segment_detail['destination']['longitude'] = dest_info['lng']
+            
+        enhanced_flight['segments'].append(segment_detail)
+        
+    return enhanced_flight
+
 def calculate_trees_needed(total_emissions: float) -> int:
     """Calculate number of trees needed to offset emissions"""
     # One mature tree sequesters approximately 22 kg CO₂ per year

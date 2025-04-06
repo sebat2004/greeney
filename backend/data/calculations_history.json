@@ -13548,5 +13548,1337 @@
       "trees_needed": 28,
       "london_ny_percentage": 71.40320750707362
     }
+  },
+  {
+    "timestamp": "2025-04-06T10:35:35.762672",
+    "inputs": {
+      "uber_rides": [
+        {
+          "distance": 17.44,
+          "time": "56"
+        }
+      ],
+      "lyft": [
+        {
+          "distance": 12.3,
+          "time": "30"
+        }
+      ],
+      "uber_eats": [
+        {
+          "restaurant": "Chicken Shanty Corvallis",
+          "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US"
+        }
+      ],
+      "doordash": [
+        {
+          "restaurant": "McDonalds",
+          "delivery_address": "3725 SW West Hills Rd, Corvallis"
+        }
+      ],
+      "flights": [
+        {
+          "segments": [
+            {
+              "origin": "PDX",
+              "destination": "LAX"
+            }
+          ]
+        }
+      ]
+    },
+    "results": {
+      "entry_details": {
+        "uber_rides": [
+          {
+            "distance": 17.44,
+            "time_minutes": 56,
+            "emissions": 6.976000000000001
+          }
+        ],
+        "lyft": [
+          {
+            "distance": 12.3,
+            "time_minutes": 30,
+            "emissions": 4.920000000000001
+          }
+        ],
+        "uber_eats": [
+          {
+            "distance": 1.4689251494401432,
+            "emissions": 0.5875700597760573,
+            "origin": "Chicken Shanty Corvallis",
+            "origin_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+            "destination": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "Chicken Shanty Corvallis",
+              "found_name": "The Chicken Shanty",
+              "restaurant_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJp2Lbt55BwFQRNS5aRizLjIc",
+              "restaurant_lat": 44.5846167,
+              "restaurant_lng": -123.2577626,
+              "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+              "delivery_lat": 44.5733123,
+              "delivery_lng": -123.2741555,
+              "straight_line_distance": 1.1241089756858347
+            }
+          }
+        ],
+        "doordash": [
+          {
+            "distance": 2.3879354269452073,
+            "emissions": 0.955174170778083,
+            "origin": "McDonalds",
+            "origin_address": "300 NW 3rd St, Corvallis, OR 97330, USA",
+            "destination": "3725 SW West Hills Rd, Corvallis",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "McDonalds",
+              "found_name": "McDonald's",
+              "restaurant_address": "300 NW 3rd St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJd_3_TJNAwFQR7-1m2dwHlIU",
+              "restaurant_lat": 44.566667,
+              "restaurant_lng": -123.2600643,
+              "delivery_address": "3725 SW West Hills Rd, Corvallis",
+              "delivery_lat": 44.5571564,
+              "delivery_lng": -123.2922109,
+              "straight_line_distance": 1.7153718794652464
+            }
+          }
+        ],
+        "flights": [
+          {
+            "distance": 833.7464702433272,
+            "emissions": 208.4366175608318,
+            "segments": [
+              {
+                "distance": 833.7464702433272,
+                "emissions": 208.4366175608318,
+                "origin": "PDX",
+                "destination": "LAX",
+                "origin_info": {
+                  "lat": 45.5852698,
+                  "lng": -122.5917184,
+                  "formatted_address": "Portland International Airport (PDX), 7000 NE Airport Way, Portland, OR 97218, USA",
+                  "code": "PDX",
+                  "status": "OK"
+                },
+                "destination_info": {
+                  "lat": 33.942153,
+                  "lng": -118.4036052,
+                  "formatted_address": "Los Angeles International Airport (LAX), 1 World Wy, Los Angeles, CA 90045, USA",
+                  "code": "LAX",
+                  "status": "OK"
+                },
+                "status": "OK"
+              }
+            ],
+            "segment_count": 1
+          }
+        ]
+      },
+      "uber_distance": 17.44,
+      "uber_emissions": 6.976000000000001,
+      "lyft_distance": 12.3,
+      "lyft_emissions": 4.920000000000001,
+      "uber_eats_distance": 1.4689251494401432,
+      "uber_eats_emissions": 0.5875700597760573,
+      "doordash_distance": 2.3879354269452073,
+      "doordash_emissions": 0.955174170778083,
+      "flight_distance": 833.7464702433272,
+      "flight_emissions": 208.4366175608318,
+      "total_emissions": 221.87536179138593,
+      "trees_needed": 10,
+      "london_ny_percentage": 25.357184204729823
+    }
+  },
+  {
+    "timestamp": "2025-04-06T10:35:44.827172",
+    "inputs": {
+      "uber_rides": [
+        {
+          "distance": 17.44,
+          "time": "56"
+        }
+      ],
+      "lyft": [
+        {
+          "distance": 12.3,
+          "time": "30"
+        }
+      ],
+      "uber_eats": [
+        {
+          "restaurant": "Chicken Shanty Corvallis",
+          "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US"
+        }
+      ],
+      "doordash": [
+        {
+          "restaurant": "McDonalds",
+          "delivery_address": "3725 SW West Hills Rd, Corvallis"
+        }
+      ],
+      "flights": [
+        {
+          "segments": [
+            {
+              "origin": "PDX",
+              "destination": "SFO"
+            }
+          ]
+        }
+      ]
+    },
+    "results": {
+      "entry_details": {
+        "uber_rides": [
+          {
+            "distance": 17.44,
+            "time_minutes": 56,
+            "emissions": 6.976000000000001
+          }
+        ],
+        "lyft": [
+          {
+            "distance": 12.3,
+            "time_minutes": 30,
+            "emissions": 4.920000000000001
+          }
+        ],
+        "uber_eats": [
+          {
+            "distance": 1.4689251494401432,
+            "emissions": 0.5875700597760573,
+            "origin": "Chicken Shanty Corvallis",
+            "origin_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+            "destination": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "Chicken Shanty Corvallis",
+              "found_name": "The Chicken Shanty",
+              "restaurant_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJp2Lbt55BwFQRNS5aRizLjIc",
+              "restaurant_lat": 44.5846167,
+              "restaurant_lng": -123.2577626,
+              "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+              "delivery_lat": 44.5733123,
+              "delivery_lng": -123.2741555,
+              "straight_line_distance": 1.1241089756858347
+            }
+          }
+        ],
+        "doordash": [
+          {
+            "distance": 2.3879354269452073,
+            "emissions": 0.955174170778083,
+            "origin": "McDonalds",
+            "origin_address": "300 NW 3rd St, Corvallis, OR 97330, USA",
+            "destination": "3725 SW West Hills Rd, Corvallis",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "McDonalds",
+              "found_name": "McDonald's",
+              "restaurant_address": "300 NW 3rd St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJd_3_TJNAwFQR7-1m2dwHlIU",
+              "restaurant_lat": 44.566667,
+              "restaurant_lng": -123.2600643,
+              "delivery_address": "3725 SW West Hills Rd, Corvallis",
+              "delivery_lat": 44.5571564,
+              "delivery_lng": -123.2922109,
+              "straight_line_distance": 1.7153718794652464
+            }
+          }
+        ],
+        "flights": [
+          {
+            "distance": 550.1313528206069,
+            "emissions": 137.53283820515173,
+            "segments": [
+              {
+                "distance": 550.1313528206069,
+                "emissions": 137.53283820515173,
+                "origin": "PDX",
+                "destination": "SFO",
+                "origin_info": {
+                  "lat": 45.5852698,
+                  "lng": -122.5917184,
+                  "formatted_address": "Portland International Airport (PDX), 7000 NE Airport Way, Portland, OR 97218, USA",
+                  "code": "PDX",
+                  "status": "OK"
+                },
+                "destination_info": {
+                  "lat": 37.61911449999999,
+                  "lng": -122.3816274,
+                  "formatted_address": "San Francisco International Airport (SFO), San Francisco, CA 94128, USA",
+                  "code": "SFO",
+                  "status": "OK"
+                },
+                "status": "OK"
+              }
+            ],
+            "segment_count": 1
+          }
+        ]
+      },
+      "uber_distance": 17.44,
+      "uber_emissions": 6.976000000000001,
+      "lyft_distance": 12.3,
+      "lyft_emissions": 4.920000000000001,
+      "uber_eats_distance": 1.4689251494401432,
+      "uber_eats_emissions": 0.5875700597760573,
+      "doordash_distance": 2.3879354269452073,
+      "doordash_emissions": 0.955174170778083,
+      "flight_distance": 550.1313528206069,
+      "flight_emissions": 137.53283820515173,
+      "total_emissions": 150.97158243570587,
+      "trees_needed": 7,
+      "london_ny_percentage": 17.253895135509243
+    }
+  },
+  {
+    "timestamp": "2025-04-06T11:06:02.320317",
+    "inputs": {
+      "uber_rides": [
+        {
+          "distance": 17.44,
+          "time": "56"
+        }
+      ],
+      "lyft": [
+        {
+          "distance": 12.3,
+          "time": "30"
+        }
+      ],
+      "uber_eats": [
+        {
+          "restaurant": "Chicken Shanty Corvallis",
+          "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US"
+        }
+      ],
+      "doordash": [
+        {
+          "restaurant": "McDonalds",
+          "delivery_address": "3725 SW West Hills Rd, Corvallis"
+        }
+      ],
+      "flights": [
+        {
+          "segments": [
+            {
+              "origin": "PDX",
+              "destination": "SFO"
+            }
+          ]
+        }
+      ]
+    },
+    "results": {
+      "entry_details": {
+        "uber_rides": [
+          {
+            "distance": 17.44,
+            "time_minutes": 56,
+            "emissions": 6.976000000000001
+          }
+        ],
+        "lyft": [
+          {
+            "distance": 12.3,
+            "time_minutes": 30,
+            "emissions": 4.920000000000001
+          }
+        ],
+        "uber_eats": [
+          {
+            "distance": 1.4689251494401432,
+            "emissions": 0.5875700597760573,
+            "origin": "Chicken Shanty Corvallis",
+            "origin_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+            "destination": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "Chicken Shanty Corvallis",
+              "found_name": "The Chicken Shanty",
+              "restaurant_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJp2Lbt55BwFQRNS5aRizLjIc",
+              "restaurant_lat": 44.5846167,
+              "restaurant_lng": -123.2577626,
+              "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+              "delivery_lat": 44.5733123,
+              "delivery_lng": -123.2741555,
+              "straight_line_distance": 1.1241089756858347
+            }
+          }
+        ],
+        "doordash": [
+          {
+            "distance": 2.3879354269452073,
+            "emissions": 0.955174170778083,
+            "origin": "McDonalds",
+            "origin_address": "300 NW 3rd St, Corvallis, OR 97330, USA",
+            "destination": "3725 SW West Hills Rd, Corvallis",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "McDonalds",
+              "found_name": "McDonald's",
+              "restaurant_address": "300 NW 3rd St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJd_3_TJNAwFQR7-1m2dwHlIU",
+              "restaurant_lat": 44.566667,
+              "restaurant_lng": -123.2600643,
+              "delivery_address": "3725 SW West Hills Rd, Corvallis",
+              "delivery_lat": 44.5571564,
+              "delivery_lng": -123.2922109,
+              "straight_line_distance": 1.7153718794652464
+            }
+          }
+        ],
+        "flights": [
+          {
+            "distance": 550.1313528206069,
+            "emissions": 137.53283820515173,
+            "segments": [
+              {
+                "distance": 550.1313528206069,
+                "emissions": 137.53283820515173,
+                "origin": "PDX",
+                "destination": "SFO",
+                "origin_info": {
+                  "lat": 45.5852698,
+                  "lng": -122.5917184,
+                  "formatted_address": "Portland International Airport (PDX), 7000 NE Airport Way, Portland, OR 97218, USA",
+                  "code": "PDX",
+                  "status": "OK"
+                },
+                "destination_info": {
+                  "lat": 37.61911449999999,
+                  "lng": -122.3816274,
+                  "formatted_address": "San Francisco International Airport (SFO), San Francisco, CA 94128, USA",
+                  "code": "SFO",
+                  "status": "OK"
+                },
+                "status": "OK"
+              }
+            ],
+            "segment_count": 1
+          }
+        ]
+      },
+      "uber_distance": 17.44,
+      "uber_emissions": 6.976000000000001,
+      "lyft_distance": 12.3,
+      "lyft_emissions": 4.920000000000001,
+      "uber_eats_distance": 1.4689251494401432,
+      "uber_eats_emissions": 0.5875700597760573,
+      "doordash_distance": 2.3879354269452073,
+      "doordash_emissions": 0.955174170778083,
+      "flight_distance": 550.1313528206069,
+      "flight_emissions": 137.53283820515173,
+      "total_emissions": 150.97158243570587,
+      "trees_needed": 7,
+      "london_ny_percentage": 17.253895135509243
+    }
+  },
+  {
+    "timestamp": "2025-04-06T11:06:05.865846",
+    "inputs": {
+      "uber_rides": [
+        {
+          "distance": 17.44,
+          "time": "56"
+        }
+      ],
+      "lyft": [
+        {
+          "distance": 12.3,
+          "time": "30"
+        }
+      ],
+      "uber_eats": [
+        {
+          "restaurant": "Chicken Shanty Corvallis",
+          "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US"
+        }
+      ],
+      "doordash": [
+        {
+          "restaurant": "McDonalds",
+          "delivery_address": "3725 SW West Hills Rd, Corvallis"
+        }
+      ],
+      "flights": [
+        {
+          "segments": [
+            {
+              "origin": "PDX",
+              "destination": "LAX"
+            }
+          ]
+        }
+      ]
+    },
+    "results": {
+      "entry_details": {
+        "uber_rides": [
+          {
+            "distance": 17.44,
+            "time_minutes": 56,
+            "emissions": 6.976000000000001
+          }
+        ],
+        "lyft": [
+          {
+            "distance": 12.3,
+            "time_minutes": 30,
+            "emissions": 4.920000000000001
+          }
+        ],
+        "uber_eats": [
+          {
+            "distance": 1.4689251494401432,
+            "emissions": 0.5875700597760573,
+            "origin": "Chicken Shanty Corvallis",
+            "origin_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+            "destination": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "Chicken Shanty Corvallis",
+              "found_name": "The Chicken Shanty",
+              "restaurant_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJp2Lbt55BwFQRNS5aRizLjIc",
+              "restaurant_lat": 44.5846167,
+              "restaurant_lng": -123.2577626,
+              "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+              "delivery_lat": 44.5733123,
+              "delivery_lng": -123.2741555,
+              "straight_line_distance": 1.1241089756858347
+            }
+          }
+        ],
+        "doordash": [
+          {
+            "distance": 2.3879354269452073,
+            "emissions": 0.955174170778083,
+            "origin": "McDonalds",
+            "origin_address": "300 NW 3rd St, Corvallis, OR 97330, USA",
+            "destination": "3725 SW West Hills Rd, Corvallis",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "McDonalds",
+              "found_name": "McDonald's",
+              "restaurant_address": "300 NW 3rd St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJd_3_TJNAwFQR7-1m2dwHlIU",
+              "restaurant_lat": 44.566667,
+              "restaurant_lng": -123.2600643,
+              "delivery_address": "3725 SW West Hills Rd, Corvallis",
+              "delivery_lat": 44.5571564,
+              "delivery_lng": -123.2922109,
+              "straight_line_distance": 1.7153718794652464
+            }
+          }
+        ],
+        "flights": [
+          {
+            "distance": 833.7464702433272,
+            "emissions": 208.4366175608318,
+            "segments": [
+              {
+                "distance": 833.7464702433272,
+                "emissions": 208.4366175608318,
+                "origin": "PDX",
+                "destination": "LAX",
+                "origin_info": {
+                  "lat": 45.5852698,
+                  "lng": -122.5917184,
+                  "formatted_address": "Portland International Airport (PDX), 7000 NE Airport Way, Portland, OR 97218, USA",
+                  "code": "PDX",
+                  "status": "OK"
+                },
+                "destination_info": {
+                  "lat": 33.942153,
+                  "lng": -118.4036052,
+                  "formatted_address": "Los Angeles International Airport (LAX), 1 World Wy, Los Angeles, CA 90045, USA",
+                  "code": "LAX",
+                  "status": "OK"
+                },
+                "status": "OK"
+              }
+            ],
+            "segment_count": 1
+          }
+        ]
+      },
+      "uber_distance": 17.44,
+      "uber_emissions": 6.976000000000001,
+      "lyft_distance": 12.3,
+      "lyft_emissions": 4.920000000000001,
+      "uber_eats_distance": 1.4689251494401432,
+      "uber_eats_emissions": 0.5875700597760573,
+      "doordash_distance": 2.3879354269452073,
+      "doordash_emissions": 0.955174170778083,
+      "flight_distance": 833.7464702433272,
+      "flight_emissions": 208.4366175608318,
+      "total_emissions": 221.87536179138593,
+      "trees_needed": 10,
+      "london_ny_percentage": 25.357184204729823
+    }
+  },
+  {
+    "timestamp": "2025-04-06T11:09:41.551252",
+    "inputs": {
+      "uber_rides": [
+        {
+          "distance": 17.44,
+          "time": "56"
+        }
+      ],
+      "lyft": [
+        {
+          "distance": 12.3,
+          "time": "30"
+        }
+      ],
+      "uber_eats": [
+        {
+          "restaurant": "Chicken Shanty Corvallis",
+          "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US"
+        }
+      ],
+      "doordash": [
+        {
+          "restaurant": "McDonalds",
+          "delivery_address": "3725 SW West Hills Rd, Corvallis"
+        }
+      ],
+      "flights": [
+        {
+          "segments": [
+            {
+              "origin": "PDX",
+              "destination": "LAX"
+            }
+          ]
+        }
+      ]
+    },
+    "results": {
+      "entry_details": {
+        "uber_rides": [
+          {
+            "distance": 17.44,
+            "time_minutes": 56,
+            "emissions": 6.976000000000001
+          }
+        ],
+        "lyft": [
+          {
+            "distance": 12.3,
+            "time_minutes": 30,
+            "emissions": 4.920000000000001
+          }
+        ],
+        "uber_eats": [
+          {
+            "distance": 1.4689251494401432,
+            "emissions": 0.5875700597760573,
+            "origin": "Chicken Shanty Corvallis",
+            "origin_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+            "destination": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "Chicken Shanty Corvallis",
+              "found_name": "The Chicken Shanty",
+              "restaurant_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJp2Lbt55BwFQRNS5aRizLjIc",
+              "restaurant_lat": 44.5846167,
+              "restaurant_lng": -123.2577626,
+              "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+              "delivery_lat": 44.5733123,
+              "delivery_lng": -123.2741555,
+              "straight_line_distance": 1.1241089756858347
+            }
+          }
+        ],
+        "doordash": [
+          {
+            "distance": 2.3879354269452073,
+            "emissions": 0.955174170778083,
+            "origin": "McDonalds",
+            "origin_address": "300 NW 3rd St, Corvallis, OR 97330, USA",
+            "destination": "3725 SW West Hills Rd, Corvallis",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "McDonalds",
+              "found_name": "McDonald's",
+              "restaurant_address": "300 NW 3rd St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJd_3_TJNAwFQR7-1m2dwHlIU",
+              "restaurant_lat": 44.566667,
+              "restaurant_lng": -123.2600643,
+              "delivery_address": "3725 SW West Hills Rd, Corvallis",
+              "delivery_lat": 44.5571564,
+              "delivery_lng": -123.2922109,
+              "straight_line_distance": 1.7153718794652464
+            }
+          }
+        ],
+        "flights": [
+          {
+            "distance": 833.7464702433272,
+            "emissions": 208.4366175608318,
+            "segments": [
+              {
+                "distance": 833.7464702433272,
+                "emissions": 208.4366175608318,
+                "origin": "PDX",
+                "destination": "LAX",
+                "origin_info": {
+                  "lat": 45.5852698,
+                  "lng": -122.5917184,
+                  "formatted_address": "Portland International Airport (PDX), 7000 NE Airport Way, Portland, OR 97218, USA",
+                  "code": "PDX",
+                  "status": "OK"
+                },
+                "destination_info": {
+                  "lat": 33.942153,
+                  "lng": -118.4036052,
+                  "formatted_address": "Los Angeles International Airport (LAX), 1 World Wy, Los Angeles, CA 90045, USA",
+                  "code": "LAX",
+                  "status": "OK"
+                },
+                "status": "OK"
+              }
+            ],
+            "segment_count": 1
+          }
+        ]
+      },
+      "uber_distance": 17.44,
+      "uber_emissions": 6.976000000000001,
+      "lyft_distance": 12.3,
+      "lyft_emissions": 4.920000000000001,
+      "uber_eats_distance": 1.4689251494401432,
+      "uber_eats_emissions": 0.5875700597760573,
+      "doordash_distance": 2.3879354269452073,
+      "doordash_emissions": 0.955174170778083,
+      "flight_distance": 833.7464702433272,
+      "flight_emissions": 208.4366175608318,
+      "total_emissions": 221.87536179138593,
+      "trees_needed": 10,
+      "london_ny_percentage": 25.357184204729823
+    }
+  },
+  {
+    "timestamp": "2025-04-06T11:15:40.200936",
+    "inputs": {
+      "uber_rides": [
+        {
+          "distance": 17.44,
+          "time": "56"
+        }
+      ],
+      "lyft": [
+        {
+          "distance": 12.3,
+          "time": "30"
+        }
+      ],
+      "uber_eats": [
+        {
+          "restaurant": "Chicken Shanty Corvallis",
+          "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US"
+        }
+      ],
+      "doordash": [
+        {
+          "restaurant": "McDonalds",
+          "delivery_address": "3725 SW West Hills Rd, Corvallis"
+        }
+      ],
+      "flights": [
+        {
+          "segments": [
+            {
+              "origin": "PDX",
+              "destination": "LAX"
+            }
+          ]
+        }
+      ]
+    },
+    "results": {
+      "entry_details": {
+        "uber_rides": [
+          {
+            "distance": 17.44,
+            "time_minutes": 56,
+            "emissions": 6.976000000000001
+          }
+        ],
+        "lyft": [
+          {
+            "distance": 12.3,
+            "time_minutes": 30,
+            "emissions": 4.920000000000001
+          }
+        ],
+        "uber_eats": [
+          {
+            "distance": 1.4689251494401432,
+            "emissions": 0.5875700597760573,
+            "origin": "Chicken Shanty Corvallis",
+            "origin_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+            "destination": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "Chicken Shanty Corvallis",
+              "found_name": "The Chicken Shanty",
+              "restaurant_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJp2Lbt55BwFQRNS5aRizLjIc",
+              "restaurant_lat": 44.5846167,
+              "restaurant_lng": -123.2577626,
+              "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+              "delivery_lat": 44.5733123,
+              "delivery_lng": -123.2741555,
+              "straight_line_distance": 1.1241089756858347
+            }
+          }
+        ],
+        "doordash": [
+          {
+            "distance": 2.3879354269452073,
+            "emissions": 0.955174170778083,
+            "origin": "McDonalds",
+            "origin_address": "300 NW 3rd St, Corvallis, OR 97330, USA",
+            "destination": "3725 SW West Hills Rd, Corvallis",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "McDonalds",
+              "found_name": "McDonald's",
+              "restaurant_address": "300 NW 3rd St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJd_3_TJNAwFQR7-1m2dwHlIU",
+              "restaurant_lat": 44.566667,
+              "restaurant_lng": -123.2600643,
+              "delivery_address": "3725 SW West Hills Rd, Corvallis",
+              "delivery_lat": 44.5571564,
+              "delivery_lng": -123.2922109,
+              "straight_line_distance": 1.7153718794652464
+            }
+          }
+        ],
+        "flights": [
+          {
+            "distance": 833.7464702433272,
+            "emissions": 208.4366175608318,
+            "segments": [
+              {
+                "distance": 833.7464702433272,
+                "emissions": 208.4366175608318,
+                "origin": "PDX",
+                "destination": "LAX",
+                "origin_info": {
+                  "lat": 45.5852698,
+                  "lng": -122.5917184,
+                  "formatted_address": "Portland International Airport (PDX), 7000 NE Airport Way, Portland, OR 97218, USA",
+                  "code": "PDX",
+                  "status": "OK"
+                },
+                "destination_info": {
+                  "lat": 33.942153,
+                  "lng": -118.4036052,
+                  "formatted_address": "Los Angeles International Airport (LAX), 1 World Wy, Los Angeles, CA 90045, USA",
+                  "code": "LAX",
+                  "status": "OK"
+                },
+                "status": "OK"
+              }
+            ],
+            "segment_count": 1
+          }
+        ]
+      },
+      "uber_distance": 17.44,
+      "uber_emissions": 6.976000000000001,
+      "lyft_distance": 12.3,
+      "lyft_emissions": 4.920000000000001,
+      "uber_eats_distance": 1.4689251494401432,
+      "uber_eats_emissions": 0.5875700597760573,
+      "doordash_distance": 2.3879354269452073,
+      "doordash_emissions": 0.955174170778083,
+      "flight_distance": 833.7464702433272,
+      "flight_emissions": 208.4366175608318,
+      "total_emissions": 221.87536179138593,
+      "trees_needed": 10,
+      "london_ny_percentage": 25.357184204729823
+    }
+  },
+  {
+    "timestamp": "2025-04-06T11:16:17.881000",
+    "inputs": {
+      "uber_rides": [
+        {
+          "distance": 17.44,
+          "time": "56"
+        }
+      ],
+      "lyft": [
+        {
+          "distance": 12.3,
+          "time": "30"
+        }
+      ],
+      "uber_eats": [
+        {
+          "restaurant": "Chicken Shanty Corvallis",
+          "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US"
+        }
+      ],
+      "doordash": [
+        {
+          "restaurant": "McDonalds",
+          "delivery_address": "3725 SW West Hills Rd, Corvallis"
+        }
+      ],
+      "flights": [
+        {
+          "segments": [
+            {
+              "origin": "PDX",
+              "destination": "LAX"
+            }
+          ]
+        }
+      ]
+    },
+    "results": {
+      "entry_details": {
+        "uber_rides": [
+          {
+            "distance": 17.44,
+            "time_minutes": 56,
+            "emissions": 6.976000000000001
+          }
+        ],
+        "lyft": [
+          {
+            "distance": 12.3,
+            "time_minutes": 30,
+            "emissions": 4.920000000000001
+          }
+        ],
+        "uber_eats": [
+          {
+            "distance": 1.4689251494401432,
+            "emissions": 0.5875700597760573,
+            "origin": "Chicken Shanty Corvallis",
+            "origin_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+            "destination": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "Chicken Shanty Corvallis",
+              "found_name": "The Chicken Shanty",
+              "restaurant_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJp2Lbt55BwFQRNS5aRizLjIc",
+              "restaurant_lat": 44.5846167,
+              "restaurant_lng": -123.2577626,
+              "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+              "delivery_lat": 44.5733123,
+              "delivery_lng": -123.2741555,
+              "straight_line_distance": 1.1241089756858347
+            }
+          }
+        ],
+        "doordash": [
+          {
+            "distance": 2.3879354269452073,
+            "emissions": 0.955174170778083,
+            "origin": "McDonalds",
+            "origin_address": "300 NW 3rd St, Corvallis, OR 97330, USA",
+            "destination": "3725 SW West Hills Rd, Corvallis",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "McDonalds",
+              "found_name": "McDonald's",
+              "restaurant_address": "300 NW 3rd St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJd_3_TJNAwFQR7-1m2dwHlIU",
+              "restaurant_lat": 44.566667,
+              "restaurant_lng": -123.2600643,
+              "delivery_address": "3725 SW West Hills Rd, Corvallis",
+              "delivery_lat": 44.5571564,
+              "delivery_lng": -123.2922109,
+              "straight_line_distance": 1.7153718794652464
+            }
+          }
+        ],
+        "flights": [
+          {
+            "distance": 833.7464702433272,
+            "emissions": 208.4366175608318,
+            "segments": [
+              {
+                "distance": 833.7464702433272,
+                "emissions": 208.4366175608318,
+                "origin": "PDX",
+                "destination": "LAX",
+                "origin_info": {
+                  "lat": 45.5852698,
+                  "lng": -122.5917184,
+                  "formatted_address": "Portland International Airport (PDX), 7000 NE Airport Way, Portland, OR 97218, USA",
+                  "code": "PDX",
+                  "status": "OK"
+                },
+                "destination_info": {
+                  "lat": 33.942153,
+                  "lng": -118.4036052,
+                  "formatted_address": "Los Angeles International Airport (LAX), 1 World Wy, Los Angeles, CA 90045, USA",
+                  "code": "LAX",
+                  "status": "OK"
+                },
+                "status": "OK"
+              }
+            ],
+            "segment_count": 1
+          }
+        ]
+      },
+      "uber_distance": 17.44,
+      "uber_emissions": 6.976000000000001,
+      "lyft_distance": 12.3,
+      "lyft_emissions": 4.920000000000001,
+      "uber_eats_distance": 1.4689251494401432,
+      "uber_eats_emissions": 0.5875700597760573,
+      "doordash_distance": 2.3879354269452073,
+      "doordash_emissions": 0.955174170778083,
+      "flight_distance": 833.7464702433272,
+      "flight_emissions": 208.4366175608318,
+      "total_emissions": 221.87536179138593,
+      "trees_needed": 10,
+      "london_ny_percentage": 25.357184204729823
+    }
+  },
+  {
+    "timestamp": "2025-04-06T11:18:06.596183",
+    "inputs": {
+      "uber_rides": [
+        {
+          "distance": 17.44,
+          "time": "56"
+        }
+      ],
+      "lyft": [
+        {
+          "distance": 12.3,
+          "time": "30"
+        }
+      ],
+      "uber_eats": [
+        {
+          "restaurant": "Chicken Shanty Corvallis",
+          "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US"
+        }
+      ],
+      "doordash": [
+        {
+          "restaurant": "McDonalds",
+          "delivery_address": "3725 SW West Hills Rd, Corvallis"
+        }
+      ],
+      "flights": [
+        {
+          "segments": [
+            {
+              "origin": "PDX",
+              "destination": "SFO"
+            }
+          ]
+        }
+      ]
+    },
+    "results": {
+      "entry_details": {
+        "uber_rides": [
+          {
+            "distance": 17.44,
+            "time_minutes": 56,
+            "emissions": 6.976000000000001
+          }
+        ],
+        "lyft": [
+          {
+            "distance": 12.3,
+            "time_minutes": 30,
+            "emissions": 4.920000000000001
+          }
+        ],
+        "uber_eats": [
+          {
+            "distance": 1.4689251494401432,
+            "emissions": 0.5875700597760573,
+            "origin": "Chicken Shanty Corvallis",
+            "origin_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+            "destination": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "Chicken Shanty Corvallis",
+              "found_name": "The Chicken Shanty",
+              "restaurant_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJp2Lbt55BwFQRNS5aRizLjIc",
+              "restaurant_lat": 44.5846167,
+              "restaurant_lng": -123.2577626,
+              "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+              "delivery_lat": 44.5733123,
+              "delivery_lng": -123.2741555,
+              "straight_line_distance": 1.1241089756858347
+            }
+          }
+        ],
+        "doordash": [
+          {
+            "distance": 2.3879354269452073,
+            "emissions": 0.955174170778083,
+            "origin": "McDonalds",
+            "origin_address": "300 NW 3rd St, Corvallis, OR 97330, USA",
+            "destination": "3725 SW West Hills Rd, Corvallis",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "McDonalds",
+              "found_name": "McDonald's",
+              "restaurant_address": "300 NW 3rd St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJd_3_TJNAwFQR7-1m2dwHlIU",
+              "restaurant_lat": 44.566667,
+              "restaurant_lng": -123.2600643,
+              "delivery_address": "3725 SW West Hills Rd, Corvallis",
+              "delivery_lat": 44.5571564,
+              "delivery_lng": -123.2922109,
+              "straight_line_distance": 1.7153718794652464
+            }
+          }
+        ],
+        "flights": [
+          {
+            "distance": 550.1313528206069,
+            "emissions": 137.53283820515173,
+            "segments": [
+              {
+                "distance": 550.1313528206069,
+                "emissions": 137.53283820515173,
+                "origin": "PDX",
+                "destination": "SFO",
+                "origin_info": {
+                  "lat": 45.5852698,
+                  "lng": -122.5917184,
+                  "formatted_address": "Portland International Airport (PDX), 7000 NE Airport Way, Portland, OR 97218, USA",
+                  "code": "PDX",
+                  "status": "OK"
+                },
+                "destination_info": {
+                  "lat": 37.61911449999999,
+                  "lng": -122.3816274,
+                  "formatted_address": "San Francisco International Airport (SFO), San Francisco, CA 94128, USA",
+                  "code": "SFO",
+                  "status": "OK"
+                },
+                "status": "OK"
+              }
+            ],
+            "segment_count": 1
+          }
+        ]
+      },
+      "uber_distance": 17.44,
+      "uber_emissions": 6.976000000000001,
+      "lyft_distance": 12.3,
+      "lyft_emissions": 4.920000000000001,
+      "uber_eats_distance": 1.4689251494401432,
+      "uber_eats_emissions": 0.5875700597760573,
+      "doordash_distance": 2.3879354269452073,
+      "doordash_emissions": 0.955174170778083,
+      "flight_distance": 550.1313528206069,
+      "flight_emissions": 137.53283820515173,
+      "total_emissions": 150.97158243570587,
+      "trees_needed": 7,
+      "london_ny_percentage": 17.253895135509243
+    }
+  },
+  {
+    "timestamp": "2025-04-06T11:18:46.592139",
+    "inputs": {
+      "uber_rides": [
+        {
+          "distance": 17.44,
+          "time": "56"
+        }
+      ],
+      "lyft": [
+        {
+          "distance": 12.3,
+          "time": "30"
+        }
+      ],
+      "uber_eats": [
+        {
+          "restaurant": "Chicken Shanty Corvallis",
+          "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US"
+        }
+      ],
+      "doordash": [
+        {
+          "restaurant": "McDonalds",
+          "delivery_address": "3725 SW West Hills Rd, Corvallis"
+        }
+      ],
+      "flights": [
+        {
+          "segments": [
+            {
+              "origin": "PDX",
+              "destination": "JFK"
+            }
+          ]
+        }
+      ]
+    },
+    "results": {
+      "entry_details": {
+        "uber_rides": [
+          {
+            "distance": 17.44,
+            "time_minutes": 56,
+            "emissions": 6.976000000000001
+          }
+        ],
+        "lyft": [
+          {
+            "distance": 12.3,
+            "time_minutes": 30,
+            "emissions": 4.920000000000001
+          }
+        ],
+        "uber_eats": [
+          {
+            "distance": 1.4689251494401432,
+            "emissions": 0.5875700597760573,
+            "origin": "Chicken Shanty Corvallis",
+            "origin_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+            "destination": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "Chicken Shanty Corvallis",
+              "found_name": "The Chicken Shanty",
+              "restaurant_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJp2Lbt55BwFQRNS5aRizLjIc",
+              "restaurant_lat": 44.5846167,
+              "restaurant_lng": -123.2577626,
+              "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+              "delivery_lat": 44.5733123,
+              "delivery_lng": -123.2741555,
+              "straight_line_distance": 1.1241089756858347
+            }
+          }
+        ],
+        "doordash": [
+          {
+            "distance": 2.3879354269452073,
+            "emissions": 0.955174170778083,
+            "origin": "McDonalds",
+            "origin_address": "300 NW 3rd St, Corvallis, OR 97330, USA",
+            "destination": "3725 SW West Hills Rd, Corvallis",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "McDonalds",
+              "found_name": "McDonald's",
+              "restaurant_address": "300 NW 3rd St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJd_3_TJNAwFQR7-1m2dwHlIU",
+              "restaurant_lat": 44.566667,
+              "restaurant_lng": -123.2600643,
+              "delivery_address": "3725 SW West Hills Rd, Corvallis",
+              "delivery_lat": 44.5571564,
+              "delivery_lng": -123.2922109,
+              "straight_line_distance": 1.7153718794652464
+            }
+          }
+        ],
+        "flights": [
+          {
+            "distance": 2445.35728582536,
+            "emissions": 611.33932145634,
+            "segments": [
+              {
+                "distance": 2445.35728582536,
+                "emissions": 611.33932145634,
+                "origin": "PDX",
+                "destination": "JFK",
+                "origin_info": {
+                  "lat": 45.5852698,
+                  "lng": -122.5917184,
+                  "formatted_address": "Portland International Airport (PDX), 7000 NE Airport Way, Portland, OR 97218, USA",
+                  "code": "PDX",
+                  "status": "OK"
+                },
+                "destination_info": {
+                  "lat": 40.6446124,
+                  "lng": -73.7797278,
+                  "formatted_address": "John F. Kennedy International Airport (JFK), Queens, NY 11430, USA",
+                  "code": "JFK",
+                  "status": "OK"
+                },
+                "status": "OK"
+              }
+            ],
+            "segment_count": 1
+          }
+        ]
+      },
+      "uber_distance": 17.44,
+      "uber_emissions": 6.976000000000001,
+      "lyft_distance": 12.3,
+      "lyft_emissions": 4.920000000000001,
+      "uber_eats_distance": 1.4689251494401432,
+      "uber_eats_emissions": 0.5875700597760573,
+      "doordash_distance": 2.3879354269452073,
+      "doordash_emissions": 0.955174170778083,
+      "flight_distance": 2445.35728582536,
+      "flight_emissions": 611.33932145634,
+      "total_emissions": 624.7780656868941,
+      "trees_needed": 28,
+      "london_ny_percentage": 71.40320750707362
+    }
   }
 ]
