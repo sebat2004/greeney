@@ -23,7 +23,7 @@ Carbon emissions (CO₂e) = Carbon Intensity (g CO₂/kWh) × Energy Consumed (k
 - ShadCN
 - Flask
 - Python
-- Google APIs (Distance Matrix, Geocoding, Oath2)
+- Google APIs (Distance Matrix, Geocoding, Gmail,OAuth 2.0)
 
 ## 🏃 Run Locally 🏃
 
@@ -51,7 +51,7 @@ Contributions are welcome! If you have any questions, bug findings, or feature r
 Lannelongue, L., Grealey, J., Inouye, M. (2021). Green Algorithms: Quantifying the Carbon Footprint of Computation. Advanced Science, 2100707. https://doi.org/10.1002/advs.202100707
 
 ## 📄 License 📄 ##
-This project is supported by the MIT license.
+This project is supported by the [MIT License](https://opensource.org/license/MIT).
 
 ## ⚠️ Disclaimer ⚠️ ## 
 Greeney is a project for educational and environmental awareness purposes. The carbon emission calculations are estimates based on available data and should not be considered as exact measurements for regulatory or compliance purposes.
