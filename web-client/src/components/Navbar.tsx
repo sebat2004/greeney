@@ -53,7 +53,6 @@ const Navbar: React.FC = () => {
 
             {/* Right side: theme toggle + login (desktop only) */}
             <div className="hidden md:flex items-center gap-4">
-                <ModeToggle />
                 {session ? <LogoutButton /> : <LoginButton />}
             </div>
 
