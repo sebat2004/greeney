@@ -34,12 +34,28 @@ def extract_doordash_info(email_text):
     restaurant_match = re.search(restaurant_pattern, email_text, re.IGNORECASE)
     restaurant = restaurant_match.group(1).strip() if restaurant_match else None
     
-    # Extract delivery address
+    # Extract delivery address using complicated regex lol
     address_pattern = r"your receipt\s*\n\s*(.+?)(?:,\s*[a-z]{2}\s*\d{5}.*?)(?:\n\n|\n[a-z]|$)"
     address_match = re.search(address_pattern, email_text, re.IGNORECASE | re.DOTALL)
     address = address_match.group(1).strip() if address_match else None
     
     return {"restaurant": restaurant, "delivery_address": address}
+
+def extract_uber_ride_info(email_text):
+    """Extract uber rides start and end location using Uber Receipt"""
+    subject_pattern = r"Subject: Your [A-Za-z]+ [A-Za-z]+ trip with Uber"
+
+    if not re.search(subject_pattern, email_text, re.IGNORECASE):
+        return (None, None)
+    
+    min_n_miles_pattern = r"[0-9]*\.[0-9]+ miles \| [0-9]+ min"
+    min_n_miles_match = re.search(min_n_miles_pattern, email_text, re.IGNORECASE)
+    if min_n_miles_match:
+        split = min_n_miles_match.group(0).split()
+        miles = split[0]
+        mins = split[3]
+        return {"type" : "Uber Ride", "distance": miles, "time": mins}
+    return (None, None)
 
 def extract_receipt_info(email_text):
     """Determine email type and extract relevant information"""
@@ -50,8 +66,8 @@ def extract_receipt_info(email_text):
     elif "Order Confirmation for" in email_text and "doordash" in email_text:
         return extract_doordash_info(email_text)
     # Check if Uber ride receipt
-    # elif "ride with Uber" in email_text:
-    #     return extract_uber_ride_info(email_text)
+    elif "ride with Uber" in email_text:
+        return extract_uber_ride_info(email_text)
     else:
         return {"error": "Unknown receipt type"}
 
@@ -147,8 +163,7 @@ def main():
         # Try the simplified approach
         body_text = simple_get_body(msg)
         info = extract_receipt_info(body_text)
-        print(info)
-    
+        print(info) 
   except HttpError as error:
     # TODO(developer) - Handle errors from gmail API.
     print(f"An error occurred: {error}")
