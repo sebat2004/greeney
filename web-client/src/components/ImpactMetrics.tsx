@@ -45,13 +45,13 @@ interface ImpactMetricsProps {
 export function ImpactMetrics({ totalEmissions }: ImpactMetricsProps) {
     // Calculate impact metrics
     // Average tree absorbs about 25kg CO2 per year
-    const treesNeeded = Math.ceil(totalEmissions / (25 / 12)); // Monthly absorption
+    const treesNeeded = Math.ceil(totalEmissions / 21); // overall absorption
 
     // Water footprint: ~1000 liters per kg of CO2
-    const waterFootprint = Math.round(totalEmissions * 1000);
+    const waterFootprint = Math.round(totalEmissions * ((36.0 + 46.0) / 2));
 
     // Driving equivalent: ~0.4 kg CO2 per mile
-    const drivingEquivalent = Math.round(totalEmissions / 0.4);
+    const drivingEquivalent = Math.round(totalEmissions / 0.404);
 
     // Carbon offset cost: ~$10-15 per metric ton (1000kg) of CO2
     const offsetCost = Math.round((totalEmissions / 1000) * 12);
