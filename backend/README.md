@@ -1,36 +1,53 @@
 *Objective: Answer question*
 What is the carbon emission impact of my Uber, Doordash, Air flights.
 
+A Flask-based API service that calculates carbon emissions from transportation activities. This service functions as a data processor between the scraping team and front end, handling multiple entries and integrating with Google APIs for distance calculations.
 
-- comet - for visualzitaion
+# Features:
+
+**Processes multiple entries for all transportation categories:**
+
+- Uber rides
+- Lyft rides
+- Uber Eats deliveries
+- Doordash deliveries
+- Air flights
+
+
+# Google API integration for distance calculations:
+
+- Distance Matrix API for road distances (Uber Eats, Doordash)
+- Geocoding API for airport coordinates (flights)
+- Haversine formula for flight distances
+
+
+- Detailed console logging
+- Simple web interface for testing
+- RESTful API for integration with frontend
+- Calculation history storage
+
+
 - venv - for setting up virtual enviroment (or conda?)
 - flask - for running a server
 - python (3.9+) - for computation
 
-# potential dependencies?
-Flask>=2.0.0
-Flask-WTF>=1.0.0
-Werkzeug>=2.0.0
-plotly>=5.3.1
-pandas>=1.3.0
-arrow>=1.2.0
-click>=8.0.0
-fief-client[cli]>=0.14.0
-prometheus_client>=0.13.0
-psutil>=5.9.0
-py-cpuinfo>=8.0.0
-pynvml>=11.4.1
-rapidfuzz>=2.6.0
-requests>=2.26.0
-typer>=0.4.0
-python-dotenv>=0.19.0
-gunicorn>=20.1.0
+# Packages
+Flask==2.0.1
+Werkzeug==2.0.1
+Jinja2==3.0.1
+itsdangerous==2.0.1
+click==8.0.1
+googlemaps==4.10.0
+python-dotenv==0.19.0
 
 # Setup for Virtual Enviroment
-- `python3 -m venv venv`
-- `source venv/bin/activate`
+- `python3 -m venv backend_env`
+- `cd backend_env`
+- `source backend_env/bin/activate` #activate env within backend dir
+- `cd ..`
 - `pip install --upgrade pip`
-- `pip install -r requirements.txt`
+- `pip install requirements.txt`
+- `export GOOGLE_API_KEY='your-api-key-here'`
 - `python app.py`
 
 # How to kill virtual env:

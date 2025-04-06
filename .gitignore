@@ -10,5 +10,6 @@ backend/__pycache__/
 
 # virtual environment
 backend/venv/
+backend/backend_env
 credentials.json
 token.json
