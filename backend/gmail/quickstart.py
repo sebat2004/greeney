@@ -38,22 +38,20 @@ def extract_doordash_info(email_text):
     return {"restaurant": restaurant, "delivery_address": address}
 
 def extract_uber_ride_info(email_text):
-    """Extract ride information from Uber ride receipts"""
-    ride_pattern = r"(\d+:\d+ [ap]m)\s*\n(.*?),.*?\n(\d+:\d+ [ap]m)\s*\n(.*?)(?:, |$)"
-    ride_match = re.search(ride_pattern, email_text, re.DOTALL)
+    """Extract uber rides start and end location using Uber Receipt"""
+    subject_pattern = r"Subject: Your [A-Za-z]+ [A-Za-z]+ trip with Uber"
 
-    if ride_match:
-        origin_time = ride_match.group(1)
-        origin = ride_match.group(2)
-        destination_time = ride_match.group(3)
-        destination = ride_match.group(4)
-        return {
-            "origin": origin,
-            "destination": destination,
-            "origin_time": origin_time,
-            "destination_time": destination_time
-        }
-    return {}
+    if not re.search(subject_pattern, email_text, re.IGNORECASE):
+        return (None, None)
+    
+    min_n_miles_pattern = r"[0-9]*\.[0-9]+ miles \| [0-9]+ min"
+    min_n_miles_match = re.search(min_n_miles_pattern, email_text, re.IGNORECASE)
+    if min_n_miles_match:
+        split = min_n_miles_match.group(0).split()
+        miles = split[0]
+        mins = split[3]
+        return {"type" : "Uber Ride", "distance": miles, "time": mins}
+    return (None, None)
 
 def extract_flight_info(email_text):
     """Extract flight information from airline confirmation emails"""
@@ -151,8 +149,14 @@ def main():
 
         valid = []
         for message in messages:
-            result = service.users().messages().get(userId="me", id=message['id']).execute()
-            valid.append(result)
+            # see https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages#Message
+            result = service.users().messages().get(userId="me",id=message['id']).execute()
+            # stuff is already in json but this should make more sense
+            snippet = result['snippet'].lower()
+            # print(snippet) 
+            #poggers regex
+            if re.search(r'doordash|uber receipt|confirmation|booking', snippet, re.IGNORECASE):
+                valid.append(result)
 
         for msg in valid:
             body_text = simple_get_body(msg)
