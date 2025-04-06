@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from datetime import datetime
 from quickstart import process_email_info
-from calculator import calculate_emissions, process_quickstart_data
+from calculator import calculate_emissions, process_quickstart_data, process_flight_segments
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -220,7 +220,15 @@ def calculate_emissions_from_gmail():
             # Save calculation
             save_calculation(categorized_data, results)
             
-            # Return results
+            # Build enhanced flight data structure with coordinates using the process_flight_segments function
+            flight_data = []
+            if results['entry_details']['flights']:
+                for flight_entry in results['entry_details']['flights']:
+                    # Use the process_flight_segments function to extract and format flight data
+                    enhanced_flight = process_flight_segments(flight_entry)
+                    flight_data.append(enhanced_flight)
+            
+            # Return results with enhanced flight data
             return jsonify({
                 'success': True,
                 'total_emissions': results.get('total_emissions', 0),
@@ -243,7 +251,8 @@ def calculate_emissions_from_gmail():
                     },
                     'flights': {
                         'distance': results.get('flight_distance', 0),
-                        'emissions': results.get('flight_emissions', 0)
+                        'emissions': results.get('flight_emissions', 0),
+                        'flights': flight_data  # Add the enhanced flight data here
                     }
                 },
                 'context': {
@@ -257,7 +266,6 @@ def calculate_emissions_from_gmail():
     except Exception as e:
         logger.error(f"Error processing Gmail data: {str(e)}", exc_info=True)
         return jsonify({'error': f"Failed to process Gmail data: {str(e)}"}), 500
-
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 3001))
