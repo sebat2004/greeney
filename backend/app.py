@@ -4,6 +4,8 @@ import logging
 import json
 import sys
 from datetime import datetime
+from flask import Flask, render_template, request
+from quickstart import main
 
 # Import calculator functions
 from calculator import calculate_emissions
@@ -141,6 +143,7 @@ def index():
     
     return render_template('index.html', result=result)
 
+
 def log_detailed_results(results):
     """Log detailed calculation results to console"""
     logger.info("*** DETAILED CALCULATION RESULTS ***")
@@ -261,6 +264,18 @@ def api_calculate():
     except Exception as e:
         logger.error(f"API error: {str(e)}", exc_info=True)
         return jsonify({'error': str(e)}), 400
+
+@app.route('/calculate-emissions', methods=['GET'])
+def calculateEmissions():
+    result = main()
+    print(result)
+
+    # Return result as JSON array
+    if isinstance(result, list):
+        return {'emissions': result}, 200
+    else:
+        return {'error': 'Calculation failed'}, 500
+
 
 if __name__ == '__main__':
     logger.info("Starting Carbon Emissions Calculator Brain Service")
