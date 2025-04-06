@@ -1,19 +1,16 @@
-from flask import Flask, render_template, request, jsonify
-from flask_cors import CORS
 import os
 import logging
 import json
 import sys
+from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS
 from datetime import datetime
-from flask import Flask, render_template, request
 from quickstart import process_email_info
-
-# Import calculator functions
 from calculator import calculate_emissions
 from dotenv import load_dotenv
 
-
 load_dotenv()
+
 # Set up logging to console
 logging.basicConfig(
     level=logging.INFO,
