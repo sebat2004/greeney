@@ -1,11 +1,12 @@
 from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS
 import os
 import logging
 import json
 import sys
 from datetime import datetime
 from flask import Flask, render_template, request
-from quickstart import main
+from quickstart import process_email_info
 
 # Import calculator functions
 from calculator import calculate_emissions
@@ -267,57 +268,33 @@ def api_calculate():
         logger.error(f"API error: {str(e)}", exc_info=True)
         return jsonify({'error': str(e)}), 400
 
-@app.route('/calculate-emissions', methods=['GET'])
+@app.route('/calculate-emissions', methods=['POST'])
 def calculateEmissions():
-    result = main()
-    print(result)
-
+    """Calculate emissions based on Gmail data using provided auth token."""
+    # Get auth token from request body
+    if not request.is_json:
+            return jsonify({"error": "Missing JSON in request"}), 400
+    
+    data = request.json
+    print(data)
+    # Now use data.get() instead of request.json.get()
+    auth_token = {
+        "access_token": data.get('access_token'),  # Ensure you have the access token
+        "client_id": data.get('client_id'),  # Optional: if needed for further processing
+        "client_secret": data.get('client_secret')  # Optional: if needed for further processing
+    }
+    
+    if not auth_token:
+        return jsonify({"error": "Missing auth_token in request body"}), 400
+    
+    result = process_email_info(auth_token)
+    
     # Return result as JSON array
     if isinstance(result, list):
-        return {'emissions': result}, 200
+        return jsonify({'emissions': result}), 200
     else:
-        return {'error': 'Calculation failed'}, 500
+        return jsonify({'error': 'Calculation failed', 'details': result}), 500
 
 
 if __name__ == '__main__':
-    logger.info("Starting Carbon Emissions Calculator Brain Service")
-    logger.info(f"Template folder: {template_dir}")
-    logger.info(f"Data storage: {DATA_DIR}")
-    
-    # Example of the expected data format (for documentation in logs)
-    example_data = {
-        'uber_rides': [
-            {'distance': 17.44, 'time': '56 minutes'},
-            {'distance': 5.2, 'time': '15 minutes'}
-        ],
-        'lyft': [
-            {'distance': 12.3, 'time': '30 minutes'}
-        ],
-        'uber_eats': [
-            # New format with restaurant and delivery_address
-            {'restaurant': 'Chicken Shanty Corvallis', 'delivery_address': '1845 NW Polk Ave, Corvallis, OR 97330-5742, US'},
-            {'restaurant': 'Burgerville USA', 'delivery_address': '3725 SW West Hills Rd, Corvallis'},
-            {'restaurant': 'Gyu-Kaku Japanese BBQ', 'delivery_address': '888 Howard St, San Francisco'},
-            # Old format with ordered_from and address
-            {'ordered_from': '456 Restaurant Ave, City', 'address': '123 Main St, City'},
-            # Direct distance format
-            {'distance': 3.7}
-        ],
-        'doordash': [
-            # New format with restaurant and delivery_address
-            {'restaurant': 'Pizza Place', 'delivery_address': '789 Home St, City'},
-            # Old format with ordered_from and address
-            {'ordered_from': '321 Food St, City', 'address': '789 Home St, City'},
-            # Direct distance format
-            {'distance': 2.5}
-        ],
-        'flights': [
-            {'airport_a': 'JFK', 'airport_b': 'LAX'},
-            {'airport_a': 'PDX', 'airport_b': 'SFO'},
-            {'distance': 2500}
-        ]
-    }
-    logger.info(f"Expected API data format examples:")
-    logger.info(json.dumps(example_data, indent=2))
-    
-    app.run(debug=True)
+    app.run(debug=True, port=3001)
