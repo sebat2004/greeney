@@ -1,3 +1,5 @@
+<img width="1507" alt="Home" src="https://github.com/user-attachments/assets/41392648-51eb-4ac0-8e62-3ff28fa8b7ad" />
+
 # Greeney: Own Your Emissions
 
 Greeney is a carbon footprint tracker that helps you measure, understand, and reduce your transportation-related emissions. The app calculates your carbon footprint from various transportation activities and provides insights to make more eco-conscious choices.
