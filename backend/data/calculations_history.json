@@ -1,0 +1,565 @@
+[
+  {
+    "timestamp": "2025-04-05T22:37:01.137483",
+    "inputs": {
+      "uber_rides": [
+        {
+          "distance": 17.44,
+          "time": "56 minutes"
+        },
+        {
+          "distance": 5.2,
+          "time": "15 minutes"
+        }
+      ],
+      "lyft": [
+        {
+          "distance": 12.3,
+          "time": "30 minutes"
+        }
+      ],
+      "uber_eats": [
+        {
+          "distance": 5.8
+        },
+        {
+          "distance": 3.7
+        },
+        {
+          "ordered_from": "Pike Place Market, Seattle, WA",
+          "address": "Space Needle, Seattle, WA"
+        },
+        {
+          "ordered_from": "Ferry Building, San Francisco, CA",
+          "address": "Golden Gate Park, San Francisco, CA"
+        }
+      ],
+      "doordash": [
+        {
+          "distance": 4.5
+        },
+        {
+          "distance": 6.7
+        },
+        {
+          "ordered_from": "Times Square, New York, NY",
+          "address": "Empire State Building, New York, NY"
+        },
+        {
+          "ordered_from": "Faneuil Hall, Boston, MA",
+          "address": "Harvard University, Cambridge, MA"
+        }
+      ],
+      "flights": [
+        {
+          "distance": 1500.25
+        },
+        {
+          "distance": 450.75
+        },
+        {
+          "airport_a": "PDX",
+          "airport_b": "LAX"
+        },
+        {
+          "airport_a": "JFK",
+          "airport_b": "LHR"
+        },
+        {
+          "airport_a": "SEA",
+          "airport_b": "NRT"
+        },
+        {
+          "airport_a": "SFO",
+          "airport_b": "ORD"
+        },
+        {
+          "airport_a": "MIA",
+          "airport_b": "DFW"
+        }
+      ]
+    },
+    "results": {
+      "entry_details": {
+        "uber_rides": [
+          {
+            "distance": 17.44,
+            "time_minutes": 56,
+            "emissions": 6.976000000000001
+          },
+          {
+            "distance": 5.2,
+            "time_minutes": 15,
+            "emissions": 2.08
+          }
+        ],
+        "lyft": [
+          {
+            "distance": 12.3,
+            "time_minutes": 30,
+            "emissions": 4.920000000000001
+          }
+        ],
+        "uber_eats": [
+          {
+            "distance": 5.8,
+            "emissions": 2.32,
+            "direct_distance": true
+          },
+          {
+            "distance": 3.7,
+            "emissions": 1.4800000000000002,
+            "direct_distance": true
+          },
+          {
+            "distance": 1.0532267886214226,
+            "emissions": 0.42129071544856905,
+            "origin": "Pike Place Market, Seattle, WA",
+            "origin_address": "Pike Place Market, Seattle, WA, USA",
+            "destination": "Space Needle, Seattle, WA",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "Pike Place Market, Seattle, WA",
+              "found_name": "Pike Place Market",
+              "restaurant_address": "Pike Place Market, Seattle, WA, USA",
+              "restaurant_place_id": "ChIJy9ZRwbJqkFQRHJ8-Y18dRGA",
+              "restaurant_lat": 47.6096659,
+              "restaurant_lng": -122.3421672,
+              "delivery_address": "Space Needle, Seattle, WA",
+              "delivery_lat": 47.6205063,
+              "delivery_lng": -122.3492774,
+              "straight_line_distance": 0.8189545691172867
+            }
+          },
+          {
+            "distance": 5.860166279344328,
+            "emissions": 2.344066511737731,
+            "origin": "Ferry Building, San Francisco, CA",
+            "origin_address": "1 Ferry Building, San Francisco, CA 94105, USA",
+            "destination": "Golden Gate Park, San Francisco, CA",
+            "duration": "27 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "Ferry Building, San Francisco, CA",
+              "found_name": "Ferry Building",
+              "restaurant_address": "1 Ferry Building, San Francisco, CA 94105, USA",
+              "restaurant_place_id": "ChIJWTGPjmaAhYARxz6l1hOj92w",
+              "restaurant_lat": 37.7954425,
+              "restaurant_lng": -122.3936136,
+              "delivery_address": "Golden Gate Park, San Francisco, CA",
+              "delivery_lat": 37.7680222,
+              "delivery_lng": -122.4670096,
+              "straight_line_distance": 4.433270707706017
+            }
+          }
+        ],
+        "doordash": [
+          {
+            "distance": 4.5,
+            "emissions": 1.8,
+            "direct_distance": true
+          },
+          {
+            "distance": 6.7,
+            "emissions": 2.68,
+            "direct_distance": true
+          },
+          {
+            "distance": 1.2129195819404228,
+            "emissions": 0.48516783277616915,
+            "origin": "Times Square, New York, NY",
+            "origin_address": "Manhattan, NY 10036, USA",
+            "destination": "Empire State Building, New York, NY",
+            "duration": "9 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "Times Square, New York, NY",
+              "found_name": "Times Square",
+              "restaurant_address": "Manhattan, NY 10036, USA",
+              "restaurant_place_id": "ChIJmQJIxlVYwokRLgeuocVOGVU",
+              "restaurant_lat": 40.7579747,
+              "restaurant_lng": -73.9855426,
+              "delivery_address": "Empire State Building, New York, NY",
+              "delivery_lat": 40.7484405,
+              "delivery_lng": -73.98566439999999,
+              "straight_line_distance": 0.6587877618129103
+            }
+          },
+          {
+            "distance": 5.1387525320939025,
+            "emissions": 2.0555010128375613,
+            "origin": "Faneuil Hall, Boston, MA",
+            "origin_address": "Faneuil Hall, Boston, MA",
+            "destination": "Harvard University, Cambridge, MA",
+            "duration": "13 mins",
+            "status": "OK"
+          }
+        ],
+        "flights": [
+          {
+            "distance": 1500.25,
+            "emissions": 375.0625,
+            "direct_distance": true
+          },
+          {
+            "distance": 450.75,
+            "emissions": 112.6875,
+            "direct_distance": true
+          },
+          {
+            "distance": 833.7464702433272,
+            "emissions": 208.4366175608318,
+            "airport_a": {
+              "code": "PDX",
+              "formatted_address": "Portland International Airport (PDX), 7000 NE Airport Way, Portland, OR 97218, USA",
+              "lat": 45.5852698,
+              "lng": -122.5917184
+            },
+            "airport_b": {
+              "code": "LAX",
+              "formatted_address": "Los Angeles International Airport (LAX), 1 World Wy, Los Angeles, CA 90045, USA",
+              "lat": 33.942153,
+              "lng": -118.4036052
+            },
+            "status": "OK"
+          },
+          {
+            "distance": 3439.942810568815,
+            "emissions": 859.9857026422037,
+            "airport_a": {
+              "code": "JFK",
+              "formatted_address": "John F. Kennedy International Airport (JFK), Queens, NY 11430, USA",
+              "lat": 40.6446124,
+              "lng": -73.7797278
+            },
+            "airport_b": {
+              "code": "LHR",
+              "formatted_address": "Heathrow Airport (LHR), Hounslow, UK",
+              "lat": 51.4679914,
+              "lng": -0.455051
+            },
+            "status": "OK"
+          },
+          {
+            "distance": 4754.386915402502,
+            "emissions": 1188.5967288506256,
+            "airport_a": {
+              "code": "SEA",
+              "formatted_address": "SeaTac, WA, USA",
+              "lat": 47.4435903,
+              "lng": -122.2960726
+            },
+            "airport_b": {
+              "code": "NRT",
+              "formatted_address": "Narita International Airport (NRT), 1-1 Furugome, Narita, Chiba 282-0004, Japan",
+              "lat": 35.770178,
+              "lng": 140.3843215
+            },
+            "status": "OK"
+          },
+          {
+            "distance": 1840.5573711146556,
+            "emissions": 460.1393427786639,
+            "airport_a": {
+              "code": "SFO",
+              "formatted_address": "San Francisco International Airport (SFO), San Francisco, CA 94128, USA",
+              "lat": 37.61911449999999,
+              "lng": -122.3816274
+            },
+            "airport_b": {
+              "code": "ORD",
+              "formatted_address": "Chicago O'Hare International Airport (ORD), 10000 W Balmoral Ave, Chicago, IL 60666, USA",
+              "lat": 41.9802588,
+              "lng": -87.9089858
+            },
+            "status": "OK"
+          },
+          {
+            "distance": 1119.3136642690542,
+            "emissions": 279.82841606726356,
+            "airport_a": {
+              "code": "MIA",
+              "formatted_address": "Miami International Airport (MIA), 2100 NW 42nd Ave, Miami, FL 33142, USA",
+              "lat": 25.7923496,
+              "lng": -80.28230590000001
+            },
+            "airport_b": {
+              "code": "DFW",
+              "formatted_address": "Dallas Fort Worth International Airport (DFW), 2400 Aviation Dr, Dallas, TX 75261, USA",
+              "lat": 32.89809,
+              "lng": -97.0337021
+            },
+            "status": "OK"
+          }
+        ]
+      },
+      "uber_distance": 22.64,
+      "uber_emissions": 9.056000000000001,
+      "lyft_distance": 12.3,
+      "lyft_emissions": 4.920000000000001,
+      "uber_eats_distance": 16.41339306796575,
+      "uber_eats_emissions": 6.5653572271863,
+      "doordash_distance": 17.551672114034325,
+      "doordash_emissions": 7.020668845613731,
+      "flight_distance": 13938.947231598355,
+      "flight_emissions": 3484.7368078995887,
+      "total_emissions": 3512.298833972389,
+      "trees_needed": 160,
+      "london_ny_percentage": 401.40558102541587
+    }
+  },
+  {
+    "timestamp": "2025-04-05T22:40:09.608322",
+    "inputs": {
+      "uber_eats": [
+        {
+          "restaurant": "Chicken Shanty Corvallis",
+          "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US"
+        }
+      ],
+      "doordash": [
+        {
+          "restaurant": "Burgerville USA",
+          "delivery_address": "3725 SW West Hills Rd, Corvallis"
+        }
+      ],
+      "flights": [
+        {
+          "airport_a": "PDX",
+          "airport_b": "LAX"
+        }
+      ]
+    },
+    "results": {
+      "entry_details": {
+        "uber_rides": [],
+        "lyft": [],
+        "uber_eats": [
+          {
+            "distance": 1.4689251494401432,
+            "emissions": 0.5875700597760573,
+            "origin": "Chicken Shanty Corvallis",
+            "origin_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+            "destination": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "Chicken Shanty Corvallis",
+              "found_name": "The Chicken Shanty",
+              "restaurant_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJp2Lbt55BwFQRNS5aRizLjIc",
+              "restaurant_lat": 44.5846167,
+              "restaurant_lng": -123.2577626,
+              "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+              "delivery_lat": 44.5733123,
+              "delivery_lng": -123.2741555,
+              "straight_line_distance": 1.1229176414194002
+            }
+          }
+        ],
+        "doordash": [
+          {
+            "distance": 4.1234294804081175,
+            "emissions": 1.6493717921632471,
+            "origin": "Burgerville USA",
+            "origin_address": "2300 NW 9th St, Corvallis, OR 97330, USA",
+            "destination": "3725 SW West Hills Rd, Corvallis",
+            "duration": "10 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "Burgerville USA",
+              "found_name": "Burgerville",
+              "restaurant_address": "2300 NW 9th St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJzyIhAYc_wFQRl75QkTVUyvI",
+              "restaurant_lat": 44.5914813,
+              "restaurant_lng": -123.2540315,
+              "delivery_address": "3725 SW West Hills Rd, Corvallis",
+              "delivery_lat": 44.5571564,
+              "delivery_lng": -123.2922109,
+              "straight_line_distance": 3.0258648880106165
+            }
+          }
+        ],
+        "flights": [
+          {
+            "distance": 833.7464702433272,
+            "emissions": 208.4366175608318,
+            "airport_a": {
+              "code": "PDX",
+              "formatted_address": "Portland International Airport (PDX), 7000 NE Airport Way, Portland, OR 97218, USA",
+              "lat": 45.5852698,
+              "lng": -122.5917184
+            },
+            "airport_b": {
+              "code": "LAX",
+              "formatted_address": "Los Angeles International Airport (LAX), 1 World Wy, Los Angeles, CA 90045, USA",
+              "lat": 33.942153,
+              "lng": -118.4036052
+            },
+            "status": "OK"
+          }
+        ]
+      },
+      "uber_eats_distance": 1.4689251494401432,
+      "uber_eats_emissions": 0.5875700597760573,
+      "doordash_distance": 4.1234294804081175,
+      "doordash_emissions": 1.6493717921632471,
+      "flight_distance": 833.7464702433272,
+      "flight_emissions": 208.4366175608318,
+      "total_emissions": 210.67355941277108,
+      "trees_needed": 10,
+      "london_ny_percentage": 24.07697821860241,
+      "input_data": {
+        "uber_eats": [
+          {
+            "restaurant": "Chicken Shanty Corvallis",
+            "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US"
+          }
+        ],
+        "doordash": [
+          {
+            "restaurant": "Burgerville USA",
+            "delivery_address": "3725 SW West Hills Rd, Corvallis"
+          }
+        ],
+        "flights": [
+          {
+            "airport_a": "PDX",
+            "airport_b": "LAX"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "timestamp": "2025-04-05T22:40:14.506801",
+    "inputs": {
+      "uber_eats": [
+        {
+          "restaurant": "Chicken Shanty Corvallis",
+          "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US"
+        }
+      ],
+      "doordash": [
+        {
+          "restaurant": "Burgerville USA",
+          "delivery_address": "3725 SW West Hills Rd, Corvallis"
+        }
+      ],
+      "flights": [
+        {
+          "airport_a": "PDX",
+          "airport_b": "LAX"
+        }
+      ]
+    },
+    "results": {
+      "entry_details": {
+        "uber_rides": [],
+        "lyft": [],
+        "uber_eats": [
+          {
+            "distance": 1.4689251494401432,
+            "emissions": 0.5875700597760573,
+            "origin": "Chicken Shanty Corvallis",
+            "origin_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+            "destination": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+            "duration": "6 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "Chicken Shanty Corvallis",
+              "found_name": "The Chicken Shanty",
+              "restaurant_address": "1786 NW 9th St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJp2Lbt55BwFQRNS5aRizLjIc",
+              "restaurant_lat": 44.5846167,
+              "restaurant_lng": -123.2577626,
+              "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US",
+              "delivery_lat": 44.5733123,
+              "delivery_lng": -123.2741555,
+              "straight_line_distance": 1.1229176414194002
+            }
+          }
+        ],
+        "doordash": [
+          {
+            "distance": 4.1234294804081175,
+            "emissions": 1.6493717921632471,
+            "origin": "Burgerville USA",
+            "origin_address": "2300 NW 9th St, Corvallis, OR 97330, USA",
+            "destination": "3725 SW West Hills Rd, Corvallis",
+            "duration": "10 mins",
+            "status": "OK",
+            "restaurant_details": {
+              "status": "OK",
+              "restaurant_name": "Burgerville USA",
+              "found_name": "Burgerville",
+              "restaurant_address": "2300 NW 9th St, Corvallis, OR 97330, USA",
+              "restaurant_place_id": "ChIJzyIhAYc_wFQRl75QkTVUyvI",
+              "restaurant_lat": 44.5914813,
+              "restaurant_lng": -123.2540315,
+              "delivery_address": "3725 SW West Hills Rd, Corvallis",
+              "delivery_lat": 44.5571564,
+              "delivery_lng": -123.2922109,
+              "straight_line_distance": 3.0258648880106165
+            }
+          }
+        ],
+        "flights": [
+          {
+            "distance": 833.7464702433272,
+            "emissions": 208.4366175608318,
+            "airport_a": {
+              "code": "PDX",
+              "formatted_address": "Portland International Airport (PDX), 7000 NE Airport Way, Portland, OR 97218, USA",
+              "lat": 45.5852698,
+              "lng": -122.5917184
+            },
+            "airport_b": {
+              "code": "LAX",
+              "formatted_address": "Los Angeles International Airport (LAX), 1 World Wy, Los Angeles, CA 90045, USA",
+              "lat": 33.942153,
+              "lng": -118.4036052
+            },
+            "status": "OK"
+          }
+        ]
+      },
+      "uber_eats_distance": 1.4689251494401432,
+      "uber_eats_emissions": 0.5875700597760573,
+      "doordash_distance": 4.1234294804081175,
+      "doordash_emissions": 1.6493717921632471,
+      "flight_distance": 833.7464702433272,
+      "flight_emissions": 208.4366175608318,
+      "total_emissions": 210.67355941277108,
+      "trees_needed": 10,
+      "london_ny_percentage": 24.07697821860241,
+      "input_data": {
+        "uber_eats": [
+          {
+            "restaurant": "Chicken Shanty Corvallis",
+            "delivery_address": "1845 NW Polk Ave, Corvallis, OR 97330-5742, US"
+          }
+        ],
+        "doordash": [
+          {
+            "restaurant": "Burgerville USA",
+            "delivery_address": "3725 SW West Hills Rd, Corvallis"
+          }
+        ],
+        "flights": [
+          {
+            "airport_a": "PDX",
+            "airport_b": "LAX"
+          }
+        ]
+      }
+    }
+  }
+]

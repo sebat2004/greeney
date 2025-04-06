@@ -41,12 +41,12 @@ googlemaps==4.10.0
 python-dotenv==0.19.0
 
 # Setup for Virtual Enviroment
-- `python3 -m venv backend_env`
-- `cd backend_env`
-- `source backend_env/bin/activate` #activate env within backend dir
+- `python -m venv pyenv`
+- `cd pyenv`
+- `source bin/activate` #activate env within backend dir
 - `cd ..`
 - `pip install --upgrade pip`
-- `pip install requirements.txt`
+- `pip install -r requirements.txt`
 - `export GOOGLE_API_KEY='your-api-key-here'`
 - `python app.py`
 
