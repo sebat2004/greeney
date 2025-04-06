@@ -11,8 +11,6 @@ The app is built with Next.js, TypeScript, Tailwind CSS on the frontend and Flas
 - Calculate carbon emissions from multiple transportation categories (Uber/Lyft rides, food deliveries, flights) in kg CO₂e
 - Track your historical carbon footprint data and energy consumption (kWh)
 - Visualize your carbon impact and distance traveled (miles) through charts and metrics
-- Compare your emissions against environmental benchmarks
-- Google Maps API integration for accurate distance calculation
 
 ##  🧮 Emissions Calculation Method  🧮
 Carbon emissions (CO₂e) = Carbon Intensity (g CO₂/kWh) × Energy Consumed (kWh)
