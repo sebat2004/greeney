@@ -1,13 +1,42 @@
 import { useQuery } from '@tanstack/react-query';
+interface FlightSegment {
+    origin: {
+        code: string;
+        latitude: number;
+        longitude: number;
+    };
+    destination: {
+        code: string;
+        latitude: number;
+        longitude: number;
+    };
+    distance: number;
+    emissions: number;
+}
+
+interface Flight {
+    segments: FlightSegment[];
+    total_distance: number;
+    total_emissions: number;
+}
+
 interface CalculatedResponse {
     data: {
         categories: {
             doordash?: { distance: number; emissions: number };
-            flights?: { distance: number; emissions: number };
+            flights?: { 
+                distance: number; 
+                emissions: number;
+                flights: Flight[];
+            };
             lyft?: { distance: number; emissions: number };
             uber_eats?: { distance: number; emissions: number };
             uber_rides?: { distance: number; emissions: number };
-            [key: string]: { distance: number; emissions: number } | undefined;
+            [key: string]: { distance: number; emissions: number } | { 
+                distance: number; 
+                emissions: number; 
+                flights?: Flight[] 
+            } | undefined;
         };
         context: {
             london_ny_percentage: number;

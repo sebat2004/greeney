@@ -20,23 +20,26 @@ import { Slider } from '@/components/ui/slider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const formSchema = z.object({
+    foodDeliveryMiles: z
+        .number()
+        .min(0, 'Food delivery orders must be at least 0')
+        .max(1000, 'Food delivery orders must be at most 1000'),
     flightMiles: z
         .number()
-        .nonnegative('Flight miles cannot be negative')
-        .optional(),
-    carMiles: z.number().nonnegative('Car miles cannot be negative').optional(),
-    foodDelivery: z
+        .min(0, 'Flight miles must be at least 0')
+        .max(100000, 'Flight miles must be at most 5000'), // Adjusted max for flights
+    carMiles: z
         .number()
-        .nonnegative('Food delivery count cannot be negative')
-        .optional(),
+        .min(0, 'Car miles must be at least 0')
+        .max(50000, 'Car miles must be at most 2000'), // Adjusted max for car miles
     rideShareMiles: z
         .number()
-        .nonnegative('Ride share miles cannot be negative')
-        .optional(),
+        .min(0, 'Ride share miles must be at least 0')
+        .max(500, 'Ride share miles must be at most 500'), // Adjusted max for ride share
     electricityUsage: z
         .number()
-        .nonnegative('Electricity usage cannot be negative')
-        .optional(),
+        .min(0, 'Electricity usage must be at least 0')
+        .max(1000, 'Electricity usage must be at most 1000'), // Adjusted max for electricity usage
 });
 
 export type CarbonUsageFormData = z.infer<typeof formSchema>;
@@ -55,11 +58,24 @@ export function CarbonUsageForm({
         defaultValues: {
             flightMiles: defaultValues?.flightMiles || 0,
             carMiles: defaultValues?.carMiles || 0,
-            foodDelivery: defaultValues?.foodDelivery || 0,
+            foodDeliveryMiles: defaultValues?.foodDeliveryMiles || 0,
             rideShareMiles: defaultValues?.rideShareMiles || 0,
             electricityUsage: defaultValues?.electricityUsage || 0,
         },
     });
+
+    // Reset form values whenever defaultValues prop changes
+    useEffect(() => {
+        if (defaultValues) {
+            form.reset({
+                flightMiles: defaultValues.flightMiles || 0,
+                carMiles: defaultValues.carMiles || 0,
+                foodDeliveryMiles: defaultValues.foodDeliveryMiles || 0,
+                rideShareMiles: defaultValues.rideShareMiles || 0,
+                electricityUsage: defaultValues.electricityUsage || 0,
+            });
+        }
+    }, [defaultValues, form]);
 
     // Effect to trigger initial calculation on component mount
     useEffect(() => {
@@ -94,7 +110,7 @@ export function CarbonUsageForm({
                                         <div className="flex items-center gap-4">
                                             <Slider
                                                 min={0}
-                                                max={5000}
+                                                max={20000}
                                                 step={50}
                                                 value={[field.value || 0]}
                                                 onValueChange={value =>
@@ -134,7 +150,7 @@ export function CarbonUsageForm({
                                         <div className="flex items-center gap-4">
                                             <Slider
                                                 min={0}
-                                                max={2000}
+                                                max={5000}
                                                 step={10}
                                                 value={[field.value || 0]}
                                                 onValueChange={value =>
@@ -164,7 +180,7 @@ export function CarbonUsageForm({
 
                         <FormField
                             control={form.control}
-                            name="foodDelivery"
+                            name="foodDeliveryMiles"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>

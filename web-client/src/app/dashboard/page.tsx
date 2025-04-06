@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
     Card,
     CardContent,
@@ -21,21 +20,53 @@ import {
 } from '@/components/EmissionsCharts';
 import { ImpactMetrics } from '@/components/ImpactMetrics';
 import { calculateEmissions } from '@/lib/EmissionsCalculator';
+import { useGetCalculations } from '@/hooks/useGetCalculations';
+import React, { useEffect } from 'react';
 
 export default function Dashboard() {
-    // State to store emissions data
-    const [emissionsData, setEmissionsData] = useState<{
-        sources: EmissionSource[];
+    const { data: calculatedResponse, isLoading } = useGetCalculations();
+
+    const [defaultValues, setDefaultValues] =
+        React.useState<CarbonUsageFormData>({
+            flightMiles: 0,
+            foodDeliveryMiles: 0,
+            rideShareMiles: 0,
+            electricityUsage: 0,
+            carMiles: 0,
+        });
+
+    const [emissionsData, setEmissionsData] = React.useState<{
         total: number;
+        sources: EmissionSource[];
         historical: MonthlyEmission[];
     }>({
-        sources: [{ name: 'No Data', value: 0, color: '#d1d5db' }],
         total: 0,
-        historical: Array.from({ length: 6 }, (_, i) => ({
-            month: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'][i],
-            value: 0,
-        })),
+        sources: [],
+        historical: [],
     });
+
+    useEffect(() => {
+        if (calculatedResponse) {
+            // Update default form values using the fetched data
+            const newValues = {
+                flightMiles:
+                    calculatedResponse.categories.flights?.distance || 0,
+                foodDeliveryMiles:
+                    (calculatedResponse.categories.uber_eats?.distance || 0) +
+                    (calculatedResponse.categories.doordash?.distance || 0),
+                rideShareMiles:
+                    (calculatedResponse.categories.uber_rides?.distance || 0) +
+                    (calculatedResponse.categories.lyft?.distance || 0),
+                electricityUsage: 0,
+                carMiles: 0,
+            };
+            setDefaultValues(newValues);
+
+            // Calculate emissions based on the fetched data
+            const calculatedData = calculateEmissions(newValues);
+            setEmissionsData(calculatedData);
+        }
+    }, [calculatedResponse]);
 
     // Handle form submission and calculate emissions
     const handleFormSubmit = (formData: CarbonUsageFormData) => {
@@ -46,12 +77,14 @@ export default function Dashboard() {
     return (
         <div className="container mx-auto py-6 px-4">
             <h1 className="text-3xl font-bold mb-6">Your Carbon Dashboard</h1>
-
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Left column: Form */}
                 <div className="lg:col-span-1">
-                    <CarbonUsageForm onSubmit={handleFormSubmit} />
-
+                    {/* Pass defaultValues to the form */}
+                    <CarbonUsageForm
+                        onSubmit={handleFormSubmit}
+                        defaultValues={defaultValues}
+                    />
                     {/* Impact metrics (visible on desktop) */}
                     <div className="mt-6 hidden lg:block">
                         <Card>

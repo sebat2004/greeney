@@ -3,11 +3,17 @@ import { EmissionSource, MonthlyEmission } from '@/components/EmissionsCharts';
 
 // Carbon emissions factors (kg CO2 per unit)
 const EMISSIONS_FACTORS = {
-    flight: 0.2, // kg CO2 per mile
+    flight: 0.25, // kg CO2 per mile
     car: 0.4, // kg CO2 per mile
-    foodDelivery: 3.5, // kg CO2 per delivery
-    rideShare: 0.45, // kg CO2 per mile
+    foodDelivery: 0.4, // kg CO2 per mile
+    rideShare: 0.4, // kg CO2 per mile
     electricity: 0.5, // kg CO2 per kWh
+    tree: 22, // kg CO2 sequestered per tree per year
+};
+
+// Reference distances
+const REFERENCE_DISTANCES = {
+    londonToNY: 3500, // miles
 };
 
 const mockData: MonthlyEmission[] = [
@@ -30,7 +36,7 @@ export function calculateEmissions(formData: CarbonUsageFormData): {
         (formData.flightMiles || 0) * EMISSIONS_FACTORS.flight;
     const carEmissions = (formData.carMiles || 0) * EMISSIONS_FACTORS.car;
     const foodDeliveryEmissions =
-        (formData.foodDelivery || 0) * EMISSIONS_FACTORS.foodDelivery;
+        (formData.foodDeliveryMiles || 0) * EMISSIONS_FACTORS.foodDelivery;
     const rideShareEmissions =
         (formData.rideShareMiles || 0) * EMISSIONS_FACTORS.rideShare;
     const electricityEmissions =
