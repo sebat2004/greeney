@@ -1,15 +1,15 @@
 import { auth } from '@/lib/auth';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
     const session = await auth(); // Ensure the user is authenticated
     if (!session) {
         // If the user is not authenticated, return a 401 Unauthorized response
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // This route is intended to handle POST requests only
-    if (request.method !== 'POST') {
+    // This route is intended to handle GET requests only
+    if (request.method !== 'GET') {
         return NextResponse.json(
             { error: 'Method not allowed' },
             { status: 405 },
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
 
     try {
         const response = await fetch(
-            'http://localhost:3001/calculate-emissions',
+            'https://greeney-backend.onrender.com/calculate-emissions',
             {
                 method: 'POST',
                 headers: {

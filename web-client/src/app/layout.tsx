@@ -4,6 +4,8 @@ import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import { SessionProvider } from 'next-auth/react';
+import { QueryClientProvider, useQueryClient } from '@tanstack/react-query';
+import { Providers } from './providers';
 
 const geistSans = Geist({
     variable: '--font-geist-sans',
@@ -30,17 +32,19 @@ export default function RootLayout({
             <html lang="en" suppressHydrationWarning>
                 <head />
                 <body>
-                    <ThemeProvider
-                        attribute="class"
-                        defaultTheme="system"
-                        enableSystem
-                        disableTransitionOnChange
-                    >
-                        <SessionProvider>
-                            <Navbar />
-                            {children}
-                        </SessionProvider>
-                    </ThemeProvider>
+                    <Providers>
+                        <ThemeProvider
+                            attribute="class"
+                            defaultTheme="system"
+                            enableSystem
+                            disableTransitionOnChange
+                        >
+                            <SessionProvider>
+                                <Navbar />
+                                {children}
+                            </SessionProvider>
+                        </ThemeProvider>
+                    </Providers>
                 </body>
             </html>
         </>
