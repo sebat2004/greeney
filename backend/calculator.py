@@ -104,7 +104,7 @@ def haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> fl
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
     
     # Earth's radius in miles
-    earth_radius = 3956  # miles
+    earth_radius = 3963 # miles according to https://en.wikipedia.org/wiki/Earth_radius
     
     # Calculate distance
     distance = earth_radius * c
