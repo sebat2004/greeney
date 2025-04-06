@@ -1,7 +1,6 @@
 import React from 'react';
 import greeney from '../../../public/greeneytransparent.png'
 import { GridBackgroundDemo } from '@/components/ui/dot_background';
-
 export default function About() {
     return (
         <GridBackgroundDemo>
