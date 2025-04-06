@@ -17,7 +17,7 @@ export default function About() {
                     Take our expert-made questionnaire, created by our cutting-edge researchers, paired with the data we gather for you to make an impact on this world by seeing where you can lower your emissions. Greeney allows you to see where you are falling short so you can take action and make the earth a tad greener.
                 </p>
                 <p className="text-lg text-neutral-300 leading-relaxed">
-                    Greeney was created by four Oregon State University students for the largest and most competitive hackathon ever hosted in the state of Oregon. We leveraged cutting-edge technologies like Next.js, React, Flask, and APIs provided by Google. Check out our <a href="https://github.com/sebat2004/greeney" target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-800 hover:underline font-medium">GitHub page</a> for an insight into how Greeney works under the hood.
+                    Greeney was created by four Oregon State University students for the largest and most competitive hackathon ever hosted in the state of Oregon. We leveraged cutting-edge technologies like Next.js, React, Flask, and APIs provided by Google. Check out our <a href="https://github.com/sebat2004/greeney" target="_blank" rel="noopener noreferrer" className="text-green-400 hover:text-green-500 hover:underline font-medium">GitHub page</a> for an insight into how Greeney works under the hood.
                 </p>
             </div>
         </div>
