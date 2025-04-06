@@ -26,7 +26,7 @@ def extract_uber_eats_info(email_text):
     address_match = re.search(address_pattern, email_text, re.DOTALL)
     address = address_match.group(1).strip() if address_match else None
     
-    return {"restaurant": restaurant, "delivery_address": address}
+    return {"type":"Uber Eats" ,"restaurant": restaurant, "delivery_address": address}
 
 def extract_doordash_info(email_text):
     """Extract restaurant name and delivery address from DoorDash receipts"""
@@ -40,7 +40,7 @@ def extract_doordash_info(email_text):
     address_match = re.search(address_pattern, email_text, re.IGNORECASE | re.DOTALL)
     address = address_match.group(1).strip() if address_match else None
     
-    return {"restaurant": restaurant, "delivery_address": address}
+    return {"type": "Door Dash Order","restaurant": restaurant, "delivery_address": address}
 
 def extract_uber_ride_info(email_text):
     """Extract uber rides start and end location using Uber Receipt"""
@@ -119,6 +119,7 @@ def extract_flight_info(email_text):
         'LBB', 'COS', 'GEG', 'MSN', 'HSV', 'CID', 'CAE', 'PNS', 'DSM', 'SAV',
         'SBA', 'TYS', 'PWM', 'ECP', 'MYR', 'BZN', 'EUG', 'LGB', 'XNA', 'BTR',
     }
+    flight_segments.append({"type": "flight"})  
 
     valid_codes = []
     for code in re.findall(r'\b([A-Z]{3})\b', email_text):
