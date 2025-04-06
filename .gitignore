@@ -12,5 +12,6 @@ backend/__pycache__/
 backend/venv
 backend/backend_env
 backend/pyenv
+backend/data/calculations_history.json
 credentials.json
 token.json
