@@ -85,24 +85,15 @@ export default function Dashboard() {
                     <CarbonUsageForm
                         onSubmit={handleFormSubmit}
                         defaultValues={defaultValues}
+                        isLoading={isLoading}
                     />
                     {/* Impact metrics (visible on desktop) */}
-                    <div className="mt-6 hidden lg:block">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Environmental Impact</CardTitle>
-                                <CardDescription>
-                                    The real-world impact of your carbon
-                                    footprint
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <ImpactMetrics
-                                    totalEmissions={emissionsData.total}
-                                />
-                            </CardContent>
-                        </Card>
-                    </div>
+                    <Card className="lg:flex items-center justify-center mt-6 bg-black border-0 lg:mt-12 h-[420px] w-[420px] gap-10">
+                        <h1 className="text-center text-lg font-bold z-10">
+                            Visualize Your Flight History
+                        </h1>
+                        <GlobeDemo />
+                    </Card>
                 </div>
 
                 {/* Right column: Charts */}
@@ -110,12 +101,22 @@ export default function Dashboard() {
                     {/* Desktop view: Show both charts */}
                     <div className="hidden lg:grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
                         <EmissionsBreakdownChart data={emissionsData.sources} />
-                        <Card className="lg:flex items-center justify-center mt-6 bg-black border-0 lg:mt-12 h-[420px] w-[420px] gap-10">
-                            <h1 className="text-center text-lg font-bold z-10">
-                                Visualize Your Flight History
-                            </h1>
-                            <GlobeDemo />
-                        </Card>
+                        <div className=" hidden lg:block">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Environmental Impact</CardTitle>
+                                    <CardDescription>
+                                        The real-world impact of your carbon
+                                        footprint
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <ImpactMetrics
+                                        totalEmissions={emissionsData.total}
+                                    />
+                                </CardContent>
+                            </Card>
+                        </div>
                     </div>
 
                     <EmissionsTrendChart data={emissionsData.historical} />

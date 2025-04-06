@@ -18,6 +18,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Loader } from 'lucide-react';
 
 const formSchema = z.object({
     foodDeliveryMiles: z
@@ -47,11 +48,13 @@ export type CarbonUsageFormData = z.infer<typeof formSchema>;
 interface CarbonUsageFormProps {
     onSubmit: (values: CarbonUsageFormData) => void;
     defaultValues?: Partial<CarbonUsageFormData>;
+    isLoading: boolean; // Optional: to indicate loading state
 }
 
 export function CarbonUsageForm({
     onSubmit,
     defaultValues,
+    isLoading,
 }: CarbonUsageFormProps) {
     const form = useForm<CarbonUsageFormData>({
         resolver: zodResolver(formSchema),
@@ -89,8 +92,12 @@ export function CarbonUsageForm({
 
     return (
         <Card className="w-full">
-            <CardHeader>
+            <CardHeader className="flex gap-5">
                 <CardTitle>Track Your Carbon Footprint</CardTitle>
+                {isLoading ? (
+                    // Show loader when isLoading is true
+                    <Loader className="animate-spin text-gray-500" />
+                ) : null}
             </CardHeader>
             <CardContent>
                 <Form {...form}>

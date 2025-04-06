@@ -111,7 +111,7 @@ export function EmissionsBreakdownChart({ data }: EmissionsBreakdownProps) {
 // Bar chart for monthly emissions trends
 export function EmissionsTrendChart({ data }: EmissionsTrendProps) {
     return (
-        <Card>
+        <Card className="h-[640px]">
             <CardHeader>
                 <CardTitle>Monthly Emissions Trend</CardTitle>
                 <CardDescription>
@@ -119,7 +119,7 @@ export function EmissionsTrendChart({ data }: EmissionsTrendProps) {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <div className="h-80">
+                <div className="h-[520px]">
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={data}>
                             <CartesianGrid
