@@ -17,9 +17,17 @@ import {
     Card,
     CardContent,
     CardDescription,
+    CardFooter,
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
+import {
+    ChartConfig,
+    ChartContainer,
+    ChartTooltip,
+    ChartTooltipContent,
+} from './ui/chart';
+import { TrendingUp } from 'lucide-react';
 
 // Types
 export type EmissionSource = {
@@ -41,10 +49,11 @@ interface EmissionsTrendProps {
     data: MonthlyEmission[];
 }
 
+const chartConfig = {} satisfies ChartConfig;
+
 // Color palette for charts
 const COLORS = ['#047857', '#059669', '#10b981', '#34d399', '#6ee7b7'];
 
-// Pie chart for emissions breakdown by source
 export function EmissionsBreakdownChart({ data }: EmissionsBreakdownProps) {
     const total = data.reduce((sum, item) => sum + item.value, 0);
 
@@ -57,51 +66,44 @@ export function EmissionsBreakdownChart({ data }: EmissionsBreakdownProps) {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <div className="h-80">
-                    <ResponsiveContainer width="100%" height="100%">
-                        <PieChart>
-                            <Pie
-                                data={data}
-                                cx="50%"
-                                cy="50%"
-                                labelLine={false}
-                                outerRadius={80}
-                                innerRadius={40}
-                                fill="#8884d8"
-                                dataKey="value"
-                                label={({ name, percent }) =>
-                                    `${name} ${(percent * 100).toFixed(0)}%`
-                                }
-                            >
-                                {data.map((entry, index) => (
-                                    <Cell
-                                        key={`cell-${index}`}
-                                        fill={
-                                            entry.color ||
-                                            COLORS[index % COLORS.length]
-                                        }
-                                    />
-                                ))}
-                            </Pie>
-                            <Tooltip
-                                formatter={(value: number) => [
-                                    `${value.toFixed(1)} kg CO₂`,
-                                    'Emissions',
-                                ]}
-                            />
-                            <Legend />
-                        </PieChart>
-                    </ResponsiveContainer>
-                </div>
-                <div className="mt-4 text-center">
-                    <p className="text-sm text-muted-foreground">
-                        Total Emissions
-                    </p>
-                    <p className="text-2xl font-bold">
-                        {total.toFixed(1)} kg CO₂
-                    </p>
-                </div>
+                <ChartContainer config={chartConfig}>
+                    <BarChart
+                        data={data}
+                        layout="vertical"
+                        margin={{ left: 0, right: 20, top: 20, bottom: 20 }}
+                    >
+                        <YAxis
+                            dataKey="name"
+                            type="category"
+                            tickLine={false}
+                            tickMargin={1}
+                            axisLine={false}
+                            width={100}
+                        />
+                        <XAxis dataKey="value" type="number" hide />
+                        <ChartTooltip
+                            cursor={false}
+                            content={<ChartTooltipContent hideLabel />}
+                        />
+                        <Bar dataKey="value" layout="vertical" radius={5}>
+                            {data.map((entry, index) => (
+                                <Cell
+                                    key={`cell-${index}`}
+                                    fill={entry.color}
+                                />
+                            ))}
+                        </Bar>
+                    </BarChart>
+                </ChartContainer>
             </CardContent>
+            <CardFooter className="flex-col items-start gap-2 text-sm">
+                <div className="flex gap-2 font-medium leading-none">
+                    <TrendingUp className="h-4 w-4" />
+                </div>
+                <div className="leading-none text-muted-foreground">
+                    Total Emissions: {total.toFixed(1)} kg CO₂
+                </div>
+            </CardFooter>
         </Card>
     );
 }

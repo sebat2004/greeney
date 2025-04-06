@@ -24,39 +24,22 @@ interface CalculatedResponse {
     data: {
         categories: {
             doordash?: { distance: number; emissions: number };
-<<<<<<< Updated upstream
-            flights?: { 
-                distance: number; 
-                emissions: number;
-                flights: Flight[];
-            };
-||||||| Stash base
-            flights?: { distance: number; emissions: number };
-=======
             flights?: {
                 distance: number;
                 emissions: number;
                 flights: Flight[];
             };
->>>>>>> Stashed changes
             lyft?: { distance: number; emissions: number };
             uber_eats?: { distance: number; emissions: number };
             uber_rides?: { distance: number; emissions: number };
-<<<<<<< Updated upstream
-            [key: string]: { distance: number; emissions: number } | { 
-                distance: number; 
-                emissions: number; 
-                flights?: Flight[] 
-            } | undefined;
-||||||| Stash base
-            [key: string]: { distance: number; emissions: number } | undefined;
-=======
-            [key: string]: { distance: number; emissions: number } | {
-                distance: number;
-                emissions: number;
-                flights?: Flight[]
-            } | undefined;
->>>>>>> Stashed changes
+            [key: string]:
+                | { distance: number; emissions: number }
+                | {
+                      distance: number;
+                      emissions: number;
+                      flights?: Flight[];
+                  }
+                | undefined;
         };
         context: {
             london_ny_percentage: number;

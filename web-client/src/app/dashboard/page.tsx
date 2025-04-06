@@ -22,6 +22,7 @@ import { ImpactMetrics } from '@/components/ImpactMetrics';
 import { calculateEmissions } from '@/lib/EmissionsCalculator';
 import { useGetCalculations } from '@/hooks/useGetCalculations';
 import React, { useEffect } from 'react';
+import GlobeDemo from '@/components/dataglobe';
 
 export default function Dashboard() {
     const { data: calculatedResponse, isLoading } = useGetCalculations();
@@ -50,7 +51,7 @@ export default function Dashboard() {
             // Update default form values using the fetched data
             const newValues = {
                 flightMiles:
-                    calculatedResponse.categories.flights?.distance || 0,
+                    (calculatedResponse.categories.flights?.distance ?? 0) / 12,
                 foodDeliveryMiles:
                     (calculatedResponse.categories.uber_eats?.distance || 0) +
                     (calculatedResponse.categories.doordash?.distance || 0),
@@ -107,10 +108,17 @@ export default function Dashboard() {
                 {/* Right column: Charts */}
                 <div className="lg:col-span-2">
                     {/* Desktop view: Show both charts */}
-                    <div className="hidden lg:grid grid-cols-1 xl:grid-cols-2 gap-6">
+                    <div className="hidden lg:grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
                         <EmissionsBreakdownChart data={emissionsData.sources} />
-                        <EmissionsTrendChart data={emissionsData.historical} />
+                        <Card className="lg:flex items-center justify-center mt-6 bg-black border-0 lg:mt-12 h-[420px] w-[420px] gap-10">
+                            <h1 className="text-center text-lg font-bold z-10">
+                                Visualize Your Flight History
+                            </h1>
+                            <GlobeDemo />
+                        </Card>
                     </div>
+
+                    <EmissionsTrendChart data={emissionsData.historical} />
 
                     {/* Mobile view: Tabs for charts */}
                     <div className="lg:hidden">
