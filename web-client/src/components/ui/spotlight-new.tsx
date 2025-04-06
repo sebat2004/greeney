@@ -68,7 +68,7 @@ export const Spotlight = ({
                         transform: 'rotate(-45deg) translate(5%, -50%)',
                         background: gradientSecond,
                         width: `${smallWidth}px`,
-                        height: `${height}px`,
+                        height: `100%`,
                     }}
                     className={`absolute top-0 left-0 origin-top-left`}
                 />
