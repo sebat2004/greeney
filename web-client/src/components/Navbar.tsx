@@ -7,9 +7,14 @@ import { Home, BarChart, Info, LogIn, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { ModeToggle } from './ModeToggle';
+import LoginButton from './login-button';
+import { useSession } from 'next-auth/react';
+import LogoutButton from './logout-button';
 
 const Navbar: React.FC = () => {
     const { theme } = useTheme();
+    const { data: session } = useSession();
+    console.log(session);
 
     return (
         <nav className="w-full flex items-center justify-between px-6 py-4 border-b bg-background">
@@ -49,15 +54,7 @@ const Navbar: React.FC = () => {
             {/* Right side: theme toggle + login (desktop only) */}
             <div className="hidden md:flex items-center gap-4">
                 <ModeToggle />
-                <Button
-                    asChild
-                    className="bg-green-600 hover:bg-green-700 text-white"
-                >
-                    <Link href="/login" className="flex items-center gap-1">
-                        <LogIn className="w-4 h-4" />
-                        Login
-                    </Link>
-                </Button>
+                {session ? <LogoutButton /> : <LoginButton />}
             </div>
 
             {/* Mobile Drawer (visible only on small screens) */}
@@ -92,13 +89,7 @@ const Navbar: React.FC = () => {
                                 <Info className="w-4 h-4" />
                                 About
                             </Link>
-                            <Link
-                                href="/login"
-                                className="flex items-center gap-2 mt-4 bg-green-600 text-white px-3 py-2 rounded-md hover:bg-green-700 transition"
-                            >
-                                <LogIn className="w-4 h-4" />
-                                Login
-                            </Link>
+                            <LoginButton />
                         </div>
                     </SheetContent>
                 </Sheet>
