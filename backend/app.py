@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from quickstart import main
 
 app = Flask(__name__)
 
@@ -20,6 +21,17 @@ def index():
         }
     
     return render_template('index.html', result=result)
+
+@app.route('/calculate-emissions', methods=['GET'])
+def calculateEmissions():
+    result = main()
+    print(result)
+
+    # Return result as JSON array
+    if isinstance(result, list):
+        return {'emissions': result}, 200
+    else:
+        return {'error': 'Calculation failed'}, 500
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -234,29 +234,23 @@ def main():
             result = service.users().messages().get(userId="me",id=message['id']).execute()
             # stuff is already in json but this should make more sense
             snippet = result['snippet'].lower() 
-            # print(snippet)
             
             #poggers regex
             if re.search(r'doordash|uber receipt|lyft|confirmation|booking',snippet):
                 body_text = simple_get_body(result)
                 info = extract_receipt_info(body_text)
                 
-                # Skip empty results
-                if info == {}:
+                if info == {} or "error" in info:
                     continue
                     
-                # Extract date from snippet with a simple regex
                 date_match = re.search(r'date: (?:(?:mon|tue|wed|thu|fri|sat|sun), )?(.*?)(?= at)', snippet, re.IGNORECASE)
                 if date_match:
                     info['date'] = date_match.group(1).strip()
                 
                 receipt_data.append(info)
         
-        # Write all data to a JSON file
-        if receipt_data:
-            with open("receipt_data.json", "w") as f:
-                json.dump(receipt_data, f, indent=4)
-    
+        return receipt_data
+        
     except HttpError as error:
         # TODO(developer) - Handle errors from gmail API.
         print(f"An error occurred: {error}")
