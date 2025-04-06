@@ -53,6 +53,9 @@ python-dotenv==0.19.0
 - vim/nano .env
 - Add this line: `GOOGLE_MAPS={your_google_map_key}`
 
+# Or export env variable (alternative to .env still works too)
+- `export GOOGLE_MAPS='your_google_map_key'`
+
 # Run the flask backend
 
 - `python app.py`

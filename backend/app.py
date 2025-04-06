@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from datetime import datetime
 from quickstart import process_email_info
-from calculator import calculate_emissions
+from calculator import calculate_emissions, process_quickstart_data
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -23,9 +23,9 @@ logger = logging.getLogger('carbon_emissions')
 
 # Check for Google API key
 if not os.getenv('GOOGLE_MAPS'):
-    logger.warning("GOOGLE_API_KEY not found in environment variables. "
+    logger.warning("GOOGLE_MAPS api key not found in environment variables. "
                  "Distance calculations for Uber Eats, DoorDash, and flights will not work correctly.")
-    logger.warning("Set the API key with: export GOOGLE_API_KEY='your-api-key'")
+    logger.warning("Set the API key with: creating .env file and putting in GOOGLE_MAPS = 'your-api-key'")
 
 # Create app with explicit template folder path
 template_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'templates'))
@@ -70,73 +70,69 @@ CORS(app)  # Enable CORS for all routes
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    """Main route for web interface (simplified for testing with single entries)"""
+    """Main route for web interface with unified form for all transportation types"""
     result = None
     
     if request.method == 'POST':
         logger.info("Received form submission")
         try:
-            # Check which form was submitted
-            if 'uber_distance' in request.form:
-                # Distance form submission
-                input_data = {
-                    'uber_rides': [{
-                        'distance': float(request.form.get('uber_distance', 0)),
-                        'time': request.form.get('uber_time', "0 minutes")
-                    }],
-                    'lyft': [{
-                        'distance': float(request.form.get('lyft_distance', 0)),
-                        'time': request.form.get('lyft_time', "0 minutes")  
-                    }],
-                    'uber_eats': [{
-                        'distance': float(request.form.get('uber_eats_distance', 0))
-                        # For direct distance testing, not using address/ordered_from
-                    }],
-                    'doordash': [{
-                        'distance': float(request.form.get('doordash_distance', 0))
-                        # For direct distance testing, not using address/ordered_from
-                    }],
-                    'flights': [{
-                        'distance': float(request.form.get('flight_distance', 0))
-                        # For direct distance testing, not using airport codes
-                    }]
-                }
-            elif 'restaurant' in request.form:
-                # Address form submission
-                input_data = {
-                    'uber_eats': [{
-                        'restaurant': request.form.get('restaurant', ''),
-                        'delivery_address': request.form.get('delivery_address', '')
-                    }] if request.form.get('restaurant') else [],
-                    'doordash': [{
-                        'restaurant': request.form.get('doordash_restaurant', ''),
-                        'delivery_address': request.form.get('doordash_address', '')
-                    }] if request.form.get('doordash_restaurant') else [],
-                    'flights': [{
-                        'airport_a': request.form.get('airport_a', ''),
-                        'airport_b': request.form.get('airport_b', '')
-                    }] if request.form.get('airport_a') else []
-                }
-            else:
-                # No recognized form fields
-                return render_template('index.html', error="No form data recognized")
+            # Initialize input data structure
+            input_data = {
+                'uber_rides': [],
+                'lyft': [],
+                'uber_eats': [],
+                'doordash': [],
+                'flights': []
+            }
             
-            logger.info(f"Input data: {json.dumps(input_data)}")
+            # Process Uber ride inputs
+            if request.form.get('uber_distance') and request.form.get('uber_time'):
+                input_data['uber_rides'].append({
+                    'distance': float(request.form.get('uber_distance', 0)),
+                    'time': request.form.get('uber_time', "0")
+                })
+            
+            # Process Lyft ride inputs
+            if request.form.get('lyft_distance') and request.form.get('lyft_time'):
+                input_data['lyft'].append({
+                    'distance': float(request.form.get('lyft_distance', 0)),
+                    'time': request.form.get('lyft_time', "0")
+                })
+            
+            # Process Uber Eats inputs
+            if request.form.get('restaurant') and request.form.get('delivery_address'):
+                input_data['uber_eats'].append({
+                    'restaurant': request.form.get('restaurant', ''),
+                    'delivery_address': request.form.get('delivery_address', '')
+                })
+            
+            # Process Doordash inputs
+            if request.form.get('doordash_restaurant') and request.form.get('doordash_address'):
+                input_data['doordash'].append({
+                    'restaurant': request.form.get('doordash_restaurant', ''),
+                    'delivery_address': request.form.get('doordash_address', '')
+                })
+            
+            # Process Flight inputs - using segments format
+            if request.form.get('airport_a') and request.form.get('airport_b'):
+                input_data['flights'].append({
+                    'segments': [
+                        {
+                            'origin': request.form.get('airport_a', ''),
+                            'destination': request.form.get('airport_b', '')
+                        }
+                    ]
+                })
+            
+            # Log basic input information
+            logger.info(f"Processing form data with {sum(len(v) for v in input_data.values())} total entries")
             
             # Calculate emissions
             results = calculate_emissions(input_data)
             
-            # Log detailed results to console
-            log_detailed_results(results)
-            
-            # Add input data to results for display
-            results.update({
-                'input_data': input_data
-            })
-            
             # Save calculation
             history_count = save_calculation(input_data, results)
-            logger.info(f"Calculation #{history_count} completed and saved")
+            logger.info(f"Calculation #{history_count} completed")
             
             result = results
             
@@ -146,93 +142,9 @@ def index():
     
     return render_template('index.html', result=result)
 
-
-def log_detailed_results(results):
-    """Log detailed calculation results to console"""
-    logger.info("*** DETAILED CALCULATION RESULTS ***")
-    logger.info(f"Total emissions: {results['total_emissions']:.2f} kg CO₂")
-    
-    # Log Uber rides details
-    if 'uber_emissions' in results:
-        logger.info(f"\nUber rides: {results['uber_distance']:.2f} miles → {results['uber_emissions']:.2f} kg CO₂")
-        for i, ride in enumerate(results['entry_details']['uber_rides']):
-            logger.info(f"  Ride {i+1}: {ride['distance']:.2f} miles → {ride['emissions']:.2f} kg CO₂")
-    
-    # Log Lyft rides details
-    if 'lyft_emissions' in results:
-        logger.info(f"\nLyft rides: {results['lyft_distance']:.2f} miles → {results['lyft_emissions']:.2f} kg CO₂")
-        for i, ride in enumerate(results['entry_details']['lyft']):
-            logger.info(f"  Ride {i+1}: {ride['distance']:.2f} miles → {ride['emissions']:.2f} kg CO₂")
-    
-    # Log Uber Eats delivery details
-    if 'uber_eats_emissions' in results:
-        logger.info(f"\nUber Eats: {results['uber_eats_distance']:.2f} miles → {results['uber_eats_emissions']:.2f} kg CO₂")
-        for i, delivery in enumerate(results['entry_details']['uber_eats']):
-            if 'origin' in delivery and 'destination' in delivery:
-                logger.info(f"  Delivery {i+1}: {delivery['origin']} → {delivery['destination']}")
-                # Check if 'duration' exists before accessing it
-                duration_info = f", Duration: {delivery['duration']}" if 'duration' in delivery else ""
-                logger.info(f"    Distance: {delivery['distance']:.2f} miles{duration_info}")
-                logger.info(f"    Emissions: {delivery['emissions']:.2f} kg CO₂")
-                if 'status' in delivery and delivery['status'] != 'OK':
-                    logger.warning(f"    Status: {delivery['status']}")
-                    if 'error' in delivery:
-                        logger.warning(f"    Error: {delivery['error']}")
-            else:
-                logger.info(f"  Delivery {i+1}: {delivery['distance']:.2f} miles → {delivery['emissions']:.2f} kg CO₂")
-    
-    # Log Doordash delivery details
-    if 'doordash_emissions' in results:
-        logger.info(f"\nDoordash: {results['doordash_distance']:.2f} miles → {results['doordash_emissions']:.2f} kg CO₂")
-        for i, delivery in enumerate(results['entry_details']['doordash']):
-            if 'origin' in delivery and 'destination' in delivery:
-                logger.info(f"  Delivery {i+1}: {delivery['origin']} → {delivery['destination']}")
-                # Check if 'duration' exists before accessing it
-                duration_info = f", Duration: {delivery['duration']}" if 'duration' in delivery else ""
-                logger.info(f"    Distance: {delivery['distance']:.2f} miles{duration_info}")
-                logger.info(f"    Emissions: {delivery['emissions']:.2f} kg CO₂")
-                if 'status' in delivery and delivery['status'] != 'OK':
-                    logger.warning(f"    Status: {delivery['status']}")
-                    if 'error' in delivery:
-                        logger.warning(f"    Error: {delivery['error']}")
-            else:
-                logger.info(f"  Delivery {i+1}: {delivery['distance']:.2f} miles → {delivery['emissions']:.2f} kg CO₂")
-    
-    # Log Flight details
-    if 'flight_emissions' in results:
-        logger.info(f"\nFlights: {results['flight_distance']:.2f} miles → {results['flight_emissions']:.2f} kg CO₂")
-        for i, flight in enumerate(results['entry_details']['flights']):
-            if 'airport_a' in flight and 'airport_b' in flight:
-                if isinstance(flight['airport_a'], dict) and isinstance(flight['airport_b'], dict):
-                    airport_a = flight['airport_a'].get('code', 'Unknown')
-                    airport_b = flight['airport_b'].get('code', 'Unknown')
-                    airport_a_address = flight['airport_a'].get('formatted_address', '')
-                    airport_b_address = flight['airport_b'].get('formatted_address', '')
-                    
-                    logger.info(f"  Flight {i+1}: {airport_a} → {airport_b}")
-                    if airport_a_address:
-                        logger.info(f"    Airport A: {airport_a_address}")
-                    if airport_b_address:
-                        logger.info(f"    Airport B: {airport_b_address}")
-                    logger.info(f"    Distance: {flight['distance']:.2f} miles")
-                    logger.info(f"    Emissions: {flight['emissions']:.2f} kg CO₂")
-                    if 'status' in flight and flight['status'] != 'OK':
-                        logger.warning(f"    Status: {flight['status']}")
-                        if 'error' in flight:
-                            logger.warning(f"    Error: {flight['error']}")
-                else:
-                    logger.info(f"  Flight {i+1}: {flight['distance']:.2f} miles → {flight['emissions']:.2f} kg CO₂")
-            else:
-                logger.info(f"  Flight {i+1}: {flight['distance']:.2f} miles → {flight['emissions']:.2f} kg CO₂")
-    
-    logger.info(f"\nContext Metrics:")
-    logger.info(f"  Trees needed: {results['trees_needed']}")
-    logger.info(f"  London-NY flight comparison: {results['london_ny_percentage']:.2f}%")
-    logger.info("****************************")
-
 @app.route('/api/calculate', methods=['POST'])
 def api_calculate():
-    """API endpoint for calculations with multiple entries and distance calculations"""
+    """API endpoint for calculations with multiple entries"""
     logger.info("Received API calculation request")
     try:
         # Get JSON data
@@ -241,24 +153,20 @@ def api_calculate():
             logger.warning("No JSON data received")
             return jsonify({'error': 'No data provided'}), 400
         
-        logger.info(f"API input data received with {len(data.keys())} categories")
-        
-        # Log the count of entries for each category
-        for category in data:
-            if isinstance(data[category], list):
-                logger.info(f"  {category}: {len(data[category])} entries")
-            else:
-                logger.info(f"  {category}: 1 entry (not in list format)")
+        # Check if data is a list (quickstart.py format) or dictionary (standard format)
+        if isinstance(data, list):
+            logger.info(f"Processing API request with {len(data)} entries (quickstart.py format)")
+            # Convert list to dictionary using process_quickstart_data
+            data = process_quickstart_data(data)
+        else:
+            logger.info(f"Processing API request with {len(data.keys())} categories (standard format)")
         
         # Calculate emissions
         results = calculate_emissions(data)
         
-        # Log detailed results to console
-        log_detailed_results(results)
-        
         # Save calculation
         history_count = save_calculation(data, results)
-        logger.info(f"API calculation #{history_count} completed and saved")
+        logger.info(f"API calculation #{history_count} completed")
         
         # Return JSON response (without entry_details to keep response smaller)
         response_data = {k: v for k, v in results.items() if k != 'entry_details'}
@@ -269,31 +177,86 @@ def api_calculate():
         return jsonify({'error': str(e)}), 400
 
 @app.route('/calculate-emissions', methods=['POST'])
-def calculateEmissions():
+def calculate_emissions_from_gmail():
     """Calculate emissions based on Gmail data using provided auth token."""
+    logger.info("Received request to calculate emissions from Gmail data")
+    
     # Get auth token from request body
     if not request.is_json:
-            return jsonify({"error": "Missing JSON in request"}), 400
+        return jsonify({"error": "Missing JSON in request"}), 400
     
     data = request.json
-    print(data)
-    # Now use data.get() instead of request.json.get()
+    # Extract auth token information
     auth_token = {
-        "access_token": data.get('access_token'),  # Ensure you have the access token
-        "client_id": data.get('client_id'),  # Optional: if needed for further processing
-        "client_secret": data.get('client_secret')  # Optional: if needed for further processing
+        "access_token": data.get('access_token'),
+        "client_id": data.get('client_id'),
+        "client_secret": data.get('client_secret')
     }
     
-    if not auth_token:
-        return jsonify({"error": "Missing auth_token in request body"}), 400
+    if not auth_token.get('access_token'):
+        return jsonify({"error": "Missing access_token in request body"}), 400
     
-    result = process_email_info(auth_token)
-    
-    # Return result as JSON array
-    if isinstance(result, list):
-        return jsonify({'emissions': result}), 200
-    else:
-        return jsonify({'error': 'Calculation failed', 'details': result}), 500
+    try:
+        # Process Gmail data
+        email_data = process_email_info(auth_token)
+        
+        if not email_data or not isinstance(email_data, list):
+            return jsonify({"error": "No valid transportation data found in emails"}), 404
+        
+        logger.info(f"Extracted {len(email_data)} transportation entries from Gmail")
+        
+        # Use process_quickstart_data to convert to standard format
+        categorized_data = process_quickstart_data(email_data)
+        
+        # Log summary of categorized data
+        for category, entries in categorized_data.items():
+            if entries:
+                logger.info(f"Found {len(entries)} {category} entries")
+        
+        # Calculate emissions
+        if any(len(entries) > 0 for entries in categorized_data.values()):
+            results = calculate_emissions(categorized_data)
+            
+            # Save calculation
+            save_calculation(categorized_data, results)
+            
+            # Return results
+            return jsonify({
+                'success': True,
+                'total_emissions': results.get('total_emissions', 0),
+                'categories': {
+                    'uber_rides': {
+                        'distance': results.get('uber_distance', 0),
+                        'emissions': results.get('uber_emissions', 0)
+                    },
+                    'lyft': {
+                        'distance': results.get('lyft_distance', 0),
+                        'emissions': results.get('lyft_emissions', 0)
+                    },
+                    'uber_eats': {
+                        'distance': results.get('uber_eats_distance', 0),
+                        'emissions': results.get('uber_eats_emissions', 0)
+                    },
+                    'doordash': {
+                        'distance': results.get('doordash_distance', 0),
+                        'emissions': results.get('doordash_emissions', 0)
+                    },
+                    'flights': {
+                        'distance': results.get('flight_distance', 0),
+                        'emissions': results.get('flight_emissions', 0)
+                    }
+                },
+                'context': {
+                    'trees_needed': results.get('trees_needed', 0),
+                    'london_ny_percentage': results.get('london_ny_percentage', 0)
+                }
+            })
+        else:
+            return jsonify({"error": "No transportation data could be processed"}), 404
+            
+    except Exception as e:
+        logger.error(f"Error processing Gmail data: {str(e)}", exc_info=True)
+        return jsonify({'error': f"Failed to process Gmail data: {str(e)}"}), 500
 
 
 if __name__ == '__main__':

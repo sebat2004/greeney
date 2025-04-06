@@ -1,11 +1,3 @@
-# Setting Up Google Maps API for Distance Calculations
-
-This guide explains how to set up the Google Maps API for the Carbon Emissions Calculator's distance calculation features.
-
-## Why You Need a Google API Key
-
-The Carbon Emissions Calculator uses Google's APIs for two types of calculations:
-
 1. **Distance Matrix API**: Calculates driving distances between addresses (for Uber Eats and Doordash)
 2. **Geocoding API**: Converts airport codes to geographic coordinates (for flights)
 
@@ -35,25 +27,11 @@ Without a valid API key, the calculator will only work with direct distance inpu
 
 Before running the Carbon Emissions Calculator, set the API key as an environment variable:
 
-### For macOS/Linux:
+### Step 5:
 
-```bash
-export GOOGLE_API_KEY='your-api-key-here'
-```
+Create .env file under backend directory and put GOOGLE_MAPS = 'your api key'
 
-### For Windows Command Prompt:
-
-```
-set GOOGLE_API_KEY=your-api-key-here
-```
-
-### For Windows PowerShell:
-
-```powershell
-$env:GOOGLE_API_KEY = 'your-api-key-here'
-```
-
-## Step 5: Test the API Integration
+## Step 6: Test the API Integration
 
 Run the provided test script to verify that the API integration is working:
 
@@ -69,12 +47,7 @@ If you see errors related to the Google API:
 
 1. **"This API project is not authorized to use this API"**: Make sure you've enabled both the Distance Matrix API and Geocoding API in your Google Cloud project.
 
-2. **"The provided API key is invalid"**: Double check that you've correctly set the GOOGLE_API_KEY environment variable with the exact key.
+2. **"The provided API key is invalid"**: Double check that you've correctly set the GOOGLE_MAPS environment variable with the exact key.
 
 3. **"You have exceeded your daily request quota"**: The free tier of Google Maps APIs has usage limits. Consider enabling billing or optimizing your usage.
 
-## API Usage Considerations
-
-- Google Maps APIs have usage limits and may incur costs if you exceed the free tier
-- Consider implementing caching for frequent address/airport lookups
-- Monitor your API usage in the Google Cloud Console
