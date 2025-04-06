@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { motion } from 'motion/react';
+import { useTheme } from 'next-themes';
 
 type SpotlightProps = {
     gradientFirst?: string;
@@ -25,6 +26,8 @@ export const Spotlight = ({
     duration = 5,
     xOffset = 100,
 }: SpotlightProps = {}) => {
+    const { theme } = useTheme(); // Ensure the theme is loaded before rendering
+
     return (
         <motion.div
             initial={{
@@ -54,8 +57,8 @@ export const Spotlight = ({
                     style={{
                         transform: `translateY(${translateY}px) rotate(-45deg)`,
                         background: gradientFirst,
-                        width: `${width}px`,
-                        height: `${height}px`,
+                        width: `100%`,
+                        height: `100%`,
                     }}
                     className={`absolute top-0 left-0`}
                 />
