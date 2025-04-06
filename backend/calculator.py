@@ -1,19 +1,17 @@
 """
-Carbon Emission Calculator Module
-
-This module calculates carbon emissions from various transportation activities:
+Currently calculaets for transportation activities:
 - Uber rides
 - Lyft rides
 - Uber Eats deliveries
 - Doordash deliveries
 - Air flights
-
-Some modes require Google API integration to calculate distances.
+Uber Eats, Doordash and Air Flights require Google API integration to calculate distances.
 """
 import math
 import os
 import logging
-from typing import List, Dict, Any, Tuple, Optional
+import re
+from typing import List, Dict, Any, Tuple, Optional, Union
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -39,23 +37,23 @@ TREE_SEQUESTRATION = 22  # kg CO₂ per tree per year
 LONDON_NY_MILES = 3500  # miles
 
 def calculate_uber_emissions(miles: float) -> float:
-
+    """Calculate emissions from Uber ride given distance in miles"""
     return miles * UBER_EMISSION_FACTOR
 
 def calculate_lyft_emissions(miles: float) -> float:
- 
+    """Calculate emissions from Lyft ride given distance in miles"""
     return miles * LYFT_EMISSION_FACTOR
 
 def calculate_food_delivery_emissions(miles: float) -> float:
-
+    """Calculate emissions from food delivery given distance in miles"""
     return miles * FOOD_DELIVERY_EMISSION_FACTOR
 
 def calculate_flight_emissions(miles: float) -> float:
-
+    """Calculate emissions from flight given distance in miles"""
     return miles * FLIGHT_EMISSION_FACTOR
 
 def geocode_airport(airport_code: str) -> Optional[Dict[str, Any]]:
-
+    """Geocode an airport by its IATA code"""
     if not gmaps:
         logging.error("Google Maps client not initialized. Cannot geocode airport.")
         return None
@@ -73,26 +71,26 @@ def geocode_airport(airport_code: str) -> Optional[Dict[str, Any]]:
                 'lat': location['lat'],
                 'lng': location['lng'],
                 'formatted_address': formatted_address,
-                'airport_code': airport_code,
+                'code': airport_code,
                 'status': 'OK'
             }
         else:
             logging.error(f"No results found for airport {airport_code}")
             return {
-                'airport_code': airport_code,
+                'code': airport_code,
                 'status': 'NOT_FOUND',
                 'error': f"No results found for airport {airport_code}"
             }
     except Exception as e:
         logging.error(f"Error geocoding airport {airport_code}: {str(e)}")
         return {
-            'airport_code': airport_code,
+            'code': airport_code,
             'status': 'ERROR',
             'error': str(e)
         }
 
 def haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
-
+    """Calculate distance between two points using Haversine formula"""
     # Convert coordinates from degrees to radians
     lat1_rad = math.radians(lat1)
     lon1_rad = math.radians(lon1)
@@ -112,60 +110,49 @@ def haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> fl
     distance = earth_radius * c
     return distance
 
-def calculate_flight_distance(airport_a: str, airport_b: str) -> Optional[Dict[str, Any]]:
-
+def calculate_flight_distance(origin: str, destination: str) -> Optional[Dict[str, Any]]:
+    """Calculate distance between two airports using Haversine formula"""
     # Get coordinates for both airports
-    airport_a_info = geocode_airport(airport_a)
-    airport_b_info = geocode_airport(airport_b)
+    origin_info = geocode_airport(origin)
+    destination_info = geocode_airport(destination)
     
-    if airport_a_info and airport_b_info and airport_a_info['status'] == 'OK' and airport_b_info['status'] == 'OK':
+    if origin_info and destination_info and origin_info['status'] == 'OK' and destination_info['status'] == 'OK':
         # Calculate Haversine distance
         distance = haversine_distance(
-            airport_a_info['lat'], airport_a_info['lng'],
-            airport_b_info['lat'], airport_b_info['lng']
+            origin_info['lat'], origin_info['lng'],
+            destination_info['lat'], destination_info['lng']
         )
         
         return {
             'distance_miles': distance,
-            'airport_a': {
-                'code': airport_a,
-                'formatted_address': airport_a_info['formatted_address'],
-                'lat': airport_a_info['lat'],
-                'lng': airport_a_info['lng']
-            },
-            'airport_b': {
-                'code': airport_b,
-                'formatted_address': airport_b_info['formatted_address'],
-                'lat': airport_b_info['lat'],
-                'lng': airport_b_info['lng']
-            },
+            'origin_info': origin_info,
+            'destination_info': destination_info,
             'status': 'OK'
         }
     else:
         errors = []
-        if airport_a_info and airport_a_info['status'] != 'OK':
-            errors.append(f"Airport A ({airport_a}): {airport_a_info.get('error', 'Unknown error')}")
-        if airport_b_info and airport_b_info['status'] != 'OK':
-            errors.append(f"Airport B ({airport_b}): {airport_b_info.get('error', 'Unknown error')}")
-        if not airport_a_info:
-            errors.append(f"Could not geocode Airport A ({airport_a})")
-        if not airport_b_info:
-            errors.append(f"Could not geocode Airport B ({airport_b})")
+        if origin_info and origin_info['status'] != 'OK':
+            errors.append(f"Origin ({origin}): {origin_info.get('error', 'Unknown error')}")
+        if destination_info and destination_info['status'] != 'OK':
+            errors.append(f"Destination ({destination}): {destination_info.get('error', 'Unknown error')}")
+        if not origin_info:
+            errors.append(f"Could not geocode origin airport ({origin})")
+        if not destination_info:
+            errors.append(f"Could not geocode destination airport ({destination})")
         
         error_message = "; ".join(errors)
-        logging.error(f"Failed to calculate distance between {airport_a} and {airport_b}: {error_message}")
+        logging.error(f"Failed to calculate distance between {origin} and {destination}: {error_message}")
         
         return {
             'distance_miles': 0,
-            'airport_a': {'code': airport_a},
-            'airport_b': {'code': airport_b},
+            'origin_info': {'code': origin} if origin_info is None else origin_info,
+            'destination_info': {'code': destination} if destination_info is None else destination_info,
             'status': 'ERROR',
             'error': error_message
         }
-    
 
-def calculate_distance_between_addresses(origin, destination, client=None):
-
+def calculate_distance_between_addresses(origin: str, destination: str, client=None) -> Dict[str, Any]:
+    """Calculate driving distance between two addresses using Google Maps API"""
     if not client and gmaps:
         client = gmaps
         
@@ -184,7 +171,7 @@ def calculate_distance_between_addresses(origin, destination, client=None):
     try:
         # If this looks like a food delivery (origin might be a restaurant name),
         # use the specialized restaurant finder
-        if len(origin.split(',')) == 1 and 'restaurant' in origin.lower():
+        if len(origin.split(',')) == 1 and 'restaurant' not in origin.lower():
             logging.info(f"Origin '{origin}' appears to be a restaurant name. Using restaurant finder.")
             return calculate_food_delivery_distance(origin, destination, client)
             
@@ -237,10 +224,8 @@ def calculate_distance_between_addresses(origin, destination, client=None):
             'error': str(e)
         }
     
-def calculate_food_delivery_distance(restaurant, delivery_address, gmaps_client=None):
-
-    import logging
-    
+def calculate_food_delivery_distance(restaurant: str, delivery_address: str, gmaps_client=None) -> Dict[str, Any]:
+    """Calculate driving distance for food delivery between restaurant and delivery address"""
     if not gmaps_client:
         logging.error("Google Maps client not initialized. Cannot calculate distance.")
         return {
@@ -258,10 +243,17 @@ def calculate_food_delivery_distance(restaurant, delivery_address, gmaps_client=
         nearest_result = find_nearest_restaurant_location(restaurant, delivery_address, gmaps_client)
         
         if nearest_result['status'] != 'OK':
-            # If we couldn't find a specific location, fall back to the original method
-            # This preserves backward compatibility
-            logging.warning(f"Could not find specific location for {restaurant}. Error: {nearest_result.get('error')}. Falling back to direct name search.")
-            return calculate_distance_between_addresses(restaurant, delivery_address, gmaps_client)
+            # Don't fall back to direct name search, return an error instead to prevent infinite loops
+            logging.warning(f"Could not find specific location for {restaurant}. Error: {nearest_result.get('error')}.")
+            return {
+                'distance_miles': 0,
+                'distance_exact': 0,
+                'duration': 'unknown',
+                'origin': restaurant,
+                'destination': delivery_address,
+                'status': nearest_result['status'],
+                'error': nearest_result.get('error', "Could not find restaurant location")
+            }
         
         # Step 2: Use the specific restaurant address to calculate the driving distance
         restaurant_address = nearest_result['restaurant_address']
@@ -284,6 +276,8 @@ def calculate_food_delivery_distance(restaurant, delivery_address, gmaps_client=
             
             # Extract duration
             duration_text = result['rows'][0]['elements'][0]['duration']['text']
+            
+            logging.info(f"Driving distance from {restaurant_address} to {delivery_address} is {distance_value:.2f} miles")
             
             return {
                 'distance_miles': float(distance_text.split()[0]),
@@ -321,10 +315,8 @@ def calculate_food_delivery_distance(restaurant, delivery_address, gmaps_client=
             'error': str(e)
         }
 
-def find_nearest_restaurant_location(restaurant_name, delivery_address, gmaps_client=None):
-
-    import logging
-    
+def find_nearest_restaurant_location(restaurant_name: str, delivery_address: str, gmaps_client=None) -> Dict[str, Any]:
+    """Find the nearest location of a restaurant to a delivery address"""
     if not gmaps_client:
         logging.error("Google Maps client not initialized. Cannot find nearest restaurant location.")
         return {
@@ -428,12 +420,12 @@ def find_nearest_restaurant_location(restaurant_name, delivery_address, gmaps_cl
             
             # Skip locations with very low name similarity instead of strict matching
             name_similarity = calculate_name_similarity(restaurant_name, location_name)
-            if name_similarity < 0.2:  # Threshold for minimum similarity
-                logging.info(f"Skipping '{location_name}' - too dissimilar to '{restaurant_name}'")
+            if name_similarity < 0.1:  # Lowered threshold from 0.2 to 0.1 for more flexible matching
+                logging.info(f"Skipping '{location_name}' - too dissimilar to '{restaurant_name}' (similarity: {name_similarity:.2f})")
                 continue
                 
             # Log what we're considering
-            logging.info(f"Considering '{location_name}' as match for '{restaurant_name}'")
+            logging.info(f"Considering '{location_name}' as match for '{restaurant_name}' (similarity: {name_similarity:.2f})")
             
             restaurant_lat = location['geometry']['location']['lat']
             restaurant_lng = location['geometry']['location']['lng']
@@ -454,18 +446,18 @@ def find_nearest_restaurant_location(restaurant_name, delivery_address, gmaps_cl
             c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
             
             # Earth's radius in miles
-            earth_radius = 3958.8  # miles
+            earth_radius = 3963  # miles According to https://en.wikipedia.org/wiki/Earth_radius
             
             # Calculate distance
             distance = earth_radius * c
             
-            logging.info(f"Location '{location_name}' is {distance:.2f} miles away")
+            logging.info(f"Location '{location_name}' is {distance:.2f} miles away (straight-line distance)")
             
             if distance < closest_distance:
                 closest_distance = distance
                 closest_restaurant = location
                 matched_name = location_name
-                logging.info(f"New closest: '{location_name}' at {distance:.2f} miles")
+                logging.info(f"New closest: '{location_name}' at {distance:.2f} miles (straight-line distance)")
         
         if not closest_restaurant:
             logging.warning(f"No suitable location found for '{restaurant_name}' near '{delivery_address}'")
@@ -511,8 +503,8 @@ def find_nearest_restaurant_location(restaurant_name, delivery_address, gmaps_cl
             'delivery_address': delivery_address
         }
 
-def generate_name_variations(restaurant_name):
-
+def generate_name_variations(restaurant_name: str) -> List[str]:
+    """Generate variations of a restaurant name to improve search accuracy"""
     variations = [restaurant_name]  # Always include the original name
     
     # Split the name into words
@@ -535,11 +527,11 @@ def generate_name_variations(restaurant_name):
     # Remove duplicates and return
     return list(dict.fromkeys(variations))  # Preserves order while removing duplicates
 
-def calculate_name_similarity(name1, name2):
- 
-    # Convert to lowercase for comparison
-    name1 = name1.lower()
-    name2 = name2.lower()
+def calculate_name_similarity(name1: str, name2: str) -> float:
+    """Calculate similarity between two restaurant names"""
+    # Normalize names by removing punctuation and converting to lowercase
+    name1 = re.sub(r'[^\w\s]', '', name1.lower())
+    name2 = re.sub(r'[^\w\s]', '', name2.lower())
     
     # Method 1: Check if one is a prefix of the other
     if name1.startswith(name2) or name2.startswith(name1):
@@ -577,9 +569,12 @@ def calculate_name_similarity(name1, name2):
     
     return similarity
 
-
-def parse_time_string(time_str: str) -> int:
-
+def parse_time_string(time_str: Union[str, int, float]) -> int:
+    """Parse a time string to extract minutes"""
+    # If already a number, return it as is
+    if isinstance(time_str, (int, float)):
+        return int(time_str)
+    
     if not isinstance(time_str, str):
         return 0
         
@@ -600,11 +595,14 @@ def parse_time_string(time_str: str) -> int:
             minutes = int(minute_parts[-1])
             total_minutes += minutes
     
+    # If it's just a number without units, assume minutes
+    if total_minutes == 0 and time_str.strip().isdigit():
+        total_minutes = int(time_str.strip())
+    
     return total_minutes
 
-# Update the food delivery processing in calculate_emissions function
-def process_food_delivery(delivery, delivery_type="uber_eats"):
- 
+def process_food_delivery(delivery: Dict[str, Any], delivery_type: str="uber_eats") -> Tuple[float, Dict[str, Any]]:
+    """Process food delivery data to calculate distance and emissions"""
     if not delivery or 'error' in delivery:  # Skip empty or error entries
         return 0, {
             'distance': 0,
@@ -614,7 +612,7 @@ def process_food_delivery(delivery, delivery_type="uber_eats"):
             
     # Check if distance is directly provided
     if 'distance' in delivery:
-        distance = delivery.get('distance', 0)
+        distance = float(delivery.get('distance', 0))
         detail = {
             'distance': distance,
             'emissions': calculate_food_delivery_emissions(distance),
@@ -706,7 +704,7 @@ def process_food_delivery(delivery, delivery_type="uber_eats"):
         return distance, detail
 
 def calculate_emissions(data: Dict[str, Any]) -> Dict[str, Any]:
- 
+    """Calculate emissions from various transportation activities"""
     # Initialize results dictionary
     results = {
         'entry_details': {
@@ -718,6 +716,16 @@ def calculate_emissions(data: Dict[str, Any]) -> Dict[str, Any]:
         }
     }
     
+    # Check for direct entries via quickstart.py format (entries with 'type' field)
+    if isinstance(data, list) and len(data) > 0 and 'type' in data[0]:
+        # List of entries in quickstart.py format
+        processed_data = process_quickstart_data(data)
+        return calculate_emissions(processed_data)
+    elif 'type' in data:
+        # Single entry in quickstart.py format
+        processed_data = process_quickstart_data([data])
+        return calculate_emissions(processed_data)
+    
     # Process Uber rides
     uber_total_distance = 0
     uber_total_emissions = 0
@@ -725,12 +733,16 @@ def calculate_emissions(data: Dict[str, Any]) -> Dict[str, Any]:
         uber_rides = data['uber_rides'] if isinstance(data['uber_rides'], list) else [data['uber_rides']]
         for ride in uber_rides:
             if ride:  # Skip empty entries
+                # Handle string or numeric distance
                 distance = ride.get('distance', 0)
+                if isinstance(distance, str):
+                    try:
+                        distance = float(distance)
+                    except ValueError:
+                        distance = 0
+                
                 time = ride.get('time', '0 minutes')
-                if isinstance(time, (int, float)):
-                    time_minutes = int(time)
-                else:
-                    time_minutes = parse_time_string(time)
+                time_minutes = parse_time_string(time)
                 
                 emissions = calculate_uber_emissions(distance)
                 uber_total_distance += distance
@@ -753,23 +765,60 @@ def calculate_emissions(data: Dict[str, Any]) -> Dict[str, Any]:
         lyft_rides = data['lyft'] if isinstance(data['lyft'], list) else [data['lyft']]
         for ride in lyft_rides:
             if ride:  # Skip empty entries
-                distance = ride.get('distance', 0)
-                time = ride.get('time', '0 minutes')
-                if isinstance(time, (int, float)):
-                    time_minutes = int(time)
+                # Check if distance is provided
+                if 'distance' in ride:
+                    distance = ride.get('distance', 0)
+                    if isinstance(distance, str):
+                        try:
+                            distance = float(distance)
+                        except ValueError:
+                            distance = 0
+                # If no distance but pickup/dropoff locations are available, calculate distance
+                elif 'pickup_location' in ride and 'dropoff_location' in ride and gmaps:
+                    try:
+                        distance_result = calculate_distance_between_addresses(
+                            ride['pickup_location'],
+                            ride['dropoff_location'],
+                            gmaps
+                        )
+                        if distance_result and distance_result['status'] == 'OK':
+                            distance = distance_result['distance_exact']
+                        else:
+                            # If distance calculation failed, estimate based on time
+                            time_minutes = parse_time_string(ride.get('time', 0))
+                            # Assume average speed of 30 mph
+                            distance = (time_minutes / 60) * 30
+                    except Exception as e:
+                        logging.error(f"Error calculating Lyft distance: {str(e)}")
+                        # Estimate based on time
+                        time_minutes = parse_time_string(ride.get('time', 0))
+                        distance = (time_minutes / 60) * 30
                 else:
-                    time_minutes = parse_time_string(time)
+                    # Estimate based on time if available
+                    time_minutes = parse_time_string(ride.get('time', 0))
+                    # Assume average speed of 30 mph
+                    distance = (time_minutes / 60) * 30
+                
+                time_minutes = parse_time_string(ride.get('time', 0))
                 
                 emissions = calculate_lyft_emissions(distance)
                 lyft_total_distance += distance
                 lyft_total_emissions += emissions
                 
                 # Add entry details
-                results['entry_details']['lyft'].append({
+                details = {
                     'distance': distance,
                     'time_minutes': time_minutes,
                     'emissions': emissions
-                })
+                }
+                
+                # Add pickup/dropoff locations if available
+                if 'pickup_location' in ride:
+                    details['pickup_location'] = ride['pickup_location']
+                if 'dropoff_location' in ride:
+                    details['dropoff_location'] = ride['dropoff_location']
+                
+                results['entry_details']['lyft'].append(details)
         
         results['lyft_distance'] = lyft_total_distance
         results['lyft_emissions'] = lyft_total_emissions
@@ -806,7 +855,7 @@ def calculate_emissions(data: Dict[str, Any]) -> Dict[str, Any]:
         results['doordash_distance'] = doordash_total_distance
         results['doordash_emissions'] = doordash_total_emissions
     
-    # Process flights
+    # Process flights - prioritizing segments format
     flight_total_distance = 0
     flight_total_emissions = 0
     if 'flights' in data and data['flights']:
@@ -815,47 +864,110 @@ def calculate_emissions(data: Dict[str, Any]) -> Dict[str, Any]:
             if not flight:  # Skip empty entries
                 continue
                 
-            # Check if distance is directly provided
-            if 'distance' in flight:
-                distance = flight.get('distance', 0)
+            # Check if segments array is provided (primary format)
+            if 'segments' in flight and isinstance(flight['segments'], list):
+                total_segment_distance = 0
+                segment_details = []
+                
+                for segment in flight['segments']:
+                    if 'origin' in segment and 'destination' in segment:
+                        distance_result = calculate_flight_distance(
+                            segment['origin'],
+                            segment['destination']
+                        )
+                        
+                        if distance_result and distance_result['status'] == 'OK':
+                            segment_distance = distance_result['distance_miles']
+                            segment_detail = {
+                                'distance': segment_distance,
+                                'emissions': calculate_flight_emissions(segment_distance),
+                                'origin': segment['origin'],
+                                'destination': segment['destination'],
+                                'origin_info': distance_result['origin_info'],
+                                'destination_info': distance_result['destination_info'],
+                                'status': 'OK'
+                            }
+                            logging.info(f"Flight segment {segment['origin']} to {segment['destination']}: {segment_distance:.2f} miles")
+                        else:
+                            # Error in distance calculation
+                            segment_distance = 0
+                            segment_detail = {
+                                'distance': 0,
+                                'emissions': 0,
+                                'origin': segment.get('origin', 'Unknown'),
+                                'destination': segment.get('destination', 'Unknown'),
+                                'status': 'ERROR',
+                                'error': distance_result.get('error', 'Failed to calculate distance') if distance_result else 'Failed to calculate distance'
+                            }
+                        
+                        total_segment_distance += segment_distance
+                        segment_details.append(segment_detail)
+                
+                distance = total_segment_distance
                 detail = {
                     'distance': distance,
                     'emissions': calculate_flight_emissions(distance),
-                    'direct_distance': True
+                    'segments': segment_details,
+                    'segment_count': len(segment_details)
                 }
-            # Check if airport codes are provided
+                logging.info(f"Total flight distance across {len(segment_details)} segments: {distance:.2f} miles")
+                
+            # Check if legacy airport_a/airport_b format is provided (convert to segments format)
             elif 'airport_a' in flight and 'airport_b' in flight:
-                distance_result = calculate_flight_distance(
-                    flight['airport_a'], 
-                    flight['airport_b']
-                )
+                # Convert to segments format
+                origin = flight['airport_a']
+                destination = flight['airport_b']
+                
+                distance_result = calculate_flight_distance(origin, destination)
                 
                 if distance_result and distance_result['status'] == 'OK':
                     distance = distance_result['distance_miles']
+                    segment_detail = {
+                        'distance': distance,
+                        'emissions': calculate_flight_emissions(distance),
+                        'origin': origin,
+                        'destination': destination,
+                        'origin_info': distance_result['origin_info'],
+                        'destination_info': distance_result['destination_info'],
+                        'status': 'OK'
+                    }
+                    
                     detail = {
                         'distance': distance,
                         'emissions': calculate_flight_emissions(distance),
-                        'airport_a': distance_result['airport_a'],
-                        'airport_b': distance_result['airport_b'],
-                        'status': 'OK'
+                        'segments': [segment_detail],
+                        'segment_count': 1
                     }
+                    logging.info(f"Flight from {origin} to {destination}: {distance:.2f} miles")
                 else:
                     # Error in distance calculation
                     distance = 0
                     detail = {
                         'distance': 0,
                         'emissions': 0,
-                        'airport_a': {'code': flight.get('airport_a', 'Unknown')},
-                        'airport_b': {'code': flight.get('airport_b', 'Unknown')},
+                        'segments': [],
+                        'segment_count': 0,
                         'status': distance_result['status'] if distance_result else 'ERROR',
                         'error': distance_result.get('error', 'Unknown error') if distance_result else 'Failed to calculate distance'
                     }
+            # Check if distance is directly provided
+            elif 'distance' in flight:
+                distance = float(flight.get('distance', 0))
+                detail = {
+                    'distance': distance,
+                    'emissions': calculate_flight_emissions(distance),
+                    'direct_distance': True,
+                    'segments': [],
+                    'segment_count': 0
+                }
             else:
                 distance = 0
                 detail = {
                     'distance': 0,
                     'emissions': 0,
-                    'error': 'No distance or airport information provided'
+                    'error': 'No distance or flight information provided',
+                    'segments': [],
+                    'segment_count': 0
                 }
                 
             flight_total_distance += distance
@@ -883,14 +995,63 @@ def calculate_emissions(data: Dict[str, Any]) -> Dict[str, Any]:
     
     return results
 
-def calculate_trees_needed(total_emissions):
+def process_quickstart_data(entries: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Process data from quickstart.py format into calculator format"""
+    # Initialize data structure
+    processed_data = {
+        'uber_rides': [],
+        'lyft': [],
+        'uber_eats': [],
+        'doordash': [],
+        'flights': []
+    }
+    
+    for entry in entries:
+        entry_type = entry.get('type', '').lower()
+        
+        if entry_type == 'uber ride':
+            processed_data['uber_rides'].append({
+                'distance': entry.get('distance', 0),
+                'time': entry.get('time', 0)
+            })
+        elif entry_type == 'lyft ride':
+            lyft_entry = {
+                'time': entry.get('time', 0)
+            }
+            
+            # Add optional fields if available
+            if 'pickup_location' in entry:
+                lyft_entry['pickup_location'] = entry['pickup_location']
+            if 'dropoff_location' in entry:
+                lyft_entry['dropoff_location'] = entry['dropoff_location']
+            if 'distance' in entry:
+                lyft_entry['distance'] = entry['distance']
+                
+            processed_data['lyft'].append(lyft_entry)
+        elif entry_type == 'uber eats':
+            processed_data['uber_eats'].append({
+                'restaurant': entry.get('restaurant', ''),
+                'delivery_address': entry.get('delivery_address', '')
+            })
+        elif entry_type == 'door dash order':
+            processed_data['doordash'].append({
+                'restaurant': entry.get('restaurant', ''),
+                'delivery_address': entry.get('delivery_address', '')
+            })
+        elif entry_type == 'flight':
+            # Pass through as is, maintaining segments format
+            processed_data['flights'].append(entry)
+    
+    return processed_data
 
+def calculate_trees_needed(total_emissions: float) -> int:
+    """Calculate number of trees needed to offset emissions"""
     # One mature tree sequesters approximately 22 kg CO₂ per year
     trees = total_emissions / TREE_SEQUESTRATION
     return round(trees)  # Round to nearest whole number of trees
 
-def calculate_london_ny_comparison(total_emissions):
-
+def calculate_london_ny_comparison(total_emissions: float) -> float:
+    """Calculate emissions as percentage of London-NY flight"""
     # London to New York is approximately 3,500 miles
     # Emissions for this flight: 3,500 * 0.25 = 875 kg CO₂
     london_ny_emissions = LONDON_NY_MILES * FLIGHT_EMISSION_FACTOR

@@ -5,7 +5,9 @@ This tests both the Distance Matrix API and the Geocoding API.
 """
 import os
 import sys
-
+from dotenv import load_dotenv
+import logging
+load_dotenv()
 try:
     import googlemaps
 except ImportError:
@@ -16,11 +18,15 @@ except ImportError:
 def test_api_key():
     """Test if the Google Maps API key is valid and has access to required APIs"""
     # Get API key from environment variable
-    api_key = os.environ.get('GOOGLE_API_KEY')
-    
+    api_key = os.getenv('GOOGLE_MAPS')
+    logger = logging.getLogger('api-key-error')
     if not api_key:
-        print("Error: GOOGLE_API_KEY environment variable not set.")
-        print("Set it with: export GOOGLE_API_KEY='your-api-key-here'")
+        
+        # Check for Google API key
+
+        logger.error("Set the API key with: creating .env file and putting in GOOGLE_MAPS = 'your-api-key'")
+
+        
         return False
     
     try:

@@ -50,9 +50,6 @@
             font-size: 0.8rem;
             margin-left: 8px;
         }
-        .nav-tabs {
-            margin-bottom: 20px;
-        }
         .detail-card {
             margin-bottom: 10px;
         }
@@ -73,8 +70,8 @@
                     </div>
                     <div class="card-body">
                         <div class="alert alert-info">
-                            <h5>Testing Interface</h5>
-                            <p class="mb-0">Use this interface to test calculations. Choose either direct distance inputs or address-based calculations.</p>
+                            <h5>Emissions Calculator UI (FOR API TESTING)</h5>
+                            <p class="mb-0">Calculate your carbon footprint from various transportation methods. Each section below is tailored to specific input types.</p>
                         </div>
                         
                         {% if error %}
@@ -83,148 +80,101 @@
                         </div>
                         {% endif %}
                         
-                        <!-- Form Tabs -->
-                        <ul class="nav nav-tabs" id="formTabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="distance-tab" data-toggle="tab" href="#distance-form" role="tab">
-                                    Direct Distance Inputs
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="address-tab" data-toggle="tab" href="#address-form" role="tab">
-                                    Address & Airport Inputs
-                                </a>
-                            </li>
-                        </ul>
-                        
-                        <!-- Tab Content -->
-                        <div class="tab-content">
-                            <!-- Direct Distance Form -->
-                            <div class="tab-pane fade show active" id="distance-form" role="tabpanel">
-                                <form method="POST">
-                                    <div class="transport-section">
-                                        <h5>Uber Rides<span class="info-tag">Single Entry</span></h5>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="uber_distance">Distance (miles)</label>
-                                                    <input type="number" step="0.01" min="0" class="form-control" id="uber_distance" name="uber_distance" value="17.44">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="uber_time">Time (minutes)</label>
-                                                    <input type="number" min="0" class="form-control" id="uber_time" name="uber_time" value="56">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="transport-section">
-                                        <h5>Lyft<span class="info-tag">Single Entry</span></h5>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="lyft_distance">Distance (miles)</label>
-                                                    <input type="number" step="0.01" min="0" class="form-control" id="lyft_distance" name="lyft_distance" value="12.3">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="lyft_time">Time (minutes)</label>
-                                                    <input type="number" min="0" class="form-control" id="lyft_time" name="lyft_time" value="30">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="transport-section">
-                                        <h5>Uber Eats<span class="info-tag">Single Entry</span></h5>
+                        <!-- Unified Form -->
+                        <form method="POST">
+                            <!-- Uber Rides Section -->
+                            <div class="transport-section">
+                                <h5>Uber Rides<span class="info-tag">Direct Distance</span></h5>
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="uber_eats_distance">Distance (miles)</label>
-                                            <input type="number" step="0.01" min="0" class="form-control" id="uber_eats_distance" name="uber_eats_distance" value="10.2">
+                                            <label for="uber_distance">Distance (miles)</label>
+                                            <input type="number" step="0.01" min="0" class="form-control" id="uber_distance" name="uber_distance" value="17.44">
                                         </div>
                                     </div>
-                                    
-                                    <div class="transport-section">
-                                        <h5>Doordash<span class="info-tag">Single Entry</span></h5>
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="doordash_distance">Distance (miles)</label>
-                                            <input type="number" step="0.01" min="0" class="form-control" id="doordash_distance" name="doordash_distance" value="10.3">
+                                            <label for="uber_time">Time (minutes)</label>
+                                            <input type="number" min="0" class="form-control" id="uber_time" name="uber_time" value="56">
                                         </div>
                                     </div>
-                                    
-                                    <div class="transport-section">
-                                        <h5>Flights<span class="info-tag">Single Entry</span></h5>
-                                        <div class="form-group">
-                                            <label for="flight_distance">Distance (miles)</label>
-                                            <input type="number" step="0.01" min="0" class="form-control" id="flight_distance" name="flight_distance" value="3000.52">
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="text-center mt-4">
-                                        <button type="submit" class="btn btn-primary btn-lg px-5">Calculate Emissions</button>
-                                    </div>
-                                </form>
+                                </div>
                             </div>
                             
-                            <!-- Address & Airport Form -->
-                            <div class="tab-pane fade" id="address-form" role="tabpanel">
-                                <form method="POST">
-                                    <div class="transport-section">
-                                        <h5>Uber Eats Delivery<span class="info-tag">Single Entry</span></h5>
+                            <!-- Lyft Section -->
+                            <div class="transport-section">
+                                <h5>Lyft Rides<span class="info-tag">Direct Distance</span></h5>
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="restaurant">Restaurant</label>
-                                            <input type="text" class="form-control" id="restaurant" name="restaurant" value="Chicken Shanty Corvallis">
-                                            <small class="form-text text-muted">Restaurant name or address</small>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="delivery_address">Delivery Address</label>
-                                            <input type="text" class="form-control" id="delivery_address" name="delivery_address" value="1845 NW Polk Ave, Corvallis, OR 97330-5742, US">
-                                            <small class="form-text text-muted">Customer's delivery address</small>
+                                            <label for="lyft_distance">Distance (miles)</label>
+                                            <input type="number" step="0.01" min="0" class="form-control" id="lyft_distance" name="lyft_distance" value="12.3">
                                         </div>
                                     </div>
-                                    
-                                    <div class="transport-section">
-                                        <h5>Doordash Delivery<span class="info-tag">Single Entry</span></h5>
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="doordash_restaurant">Restaurant</label>
-                                            <input type="text" class="form-control" id="doordash_restaurant" name="doordash_restaurant" value="Burgerville USA">
-                                            <small class="form-text text-muted">Restaurant name or address</small>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="doordash_address">Delivery Address</label>
-                                            <input type="text" class="form-control" id="doordash_address" name="doordash_address" value="3725 SW West Hills Rd, Corvallis">
-                                            <small class="form-text text-muted">Customer's delivery address</small>
+                                            <label for="lyft_time">Time (minutes)</label>
+                                            <input type="number" min="0" class="form-control" id="lyft_time" name="lyft_time" value="30">
                                         </div>
                                     </div>
-                                    
-                                    <div class="transport-section">
-                                        <h5>Flight<span class="info-tag">Single Entry</span></h5>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="airport_a">Departure Airport</label>
-                                                    <input type="text" class="form-control" id="airport_a" name="airport_a" value="PDX">
-                                                    <small class="form-text text-muted">Airport code (e.g., PDX, LAX)</small>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="airport_b">Arrival Airport</label>
-                                                    <input type="text" class="form-control" id="airport_b" name="airport_b" value="LAX">
-                                                    <small class="form-text text-muted">Airport code (e.g., JFK, SFO)</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="text-center mt-4">
-                                        <button type="submit" class="btn btn-primary btn-lg px-5">Calculate Emissions</button>
-                                    </div>
-                                </form>
+                                </div>
                             </div>
-                        </div>
+                            
+                            <!-- Uber Eats Section -->
+                            <div class="transport-section">
+                                <h5>Uber Eats<span class="info-tag">Restaurant & Address</span></h5>
+                                <div class="form-group">
+                                    <label for="restaurant">Restaurant</label>
+                                    <input type="text" class="form-control" id="restaurant" name="restaurant" value="Chicken Shanty Corvallis">
+                                    <small class="form-text text-muted">Restaurant name or address</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="delivery_address">Delivery Address</label>
+                                    <input type="text" class="form-control" id="delivery_address" name="delivery_address" value="1845 NW Polk Ave, Corvallis, OR 97330-5742, US">
+                                    <small class="form-text text-muted">Customer's delivery address</small>
+                                </div>
+                            </div>
+                            
+                            <!-- Doordash Section -->
+                            <div class="transport-section">
+                                <h5>Doordash<span class="info-tag">Restaurant & Address</span></h5>
+                                <div class="form-group">
+                                    <label for="doordash_restaurant">Restaurant</label>
+                                    <input type="text" class="form-control" id="doordash_restaurant" name="doordash_restaurant" value="McDonalds">
+                                    <small class="form-text text-muted">Restaurant name or address</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="doordash_address">Delivery Address</label>
+                                    <input type="text" class="form-control" id="doordash_address" name="doordash_address" value="3725 SW West Hills Rd, Corvallis">
+                                    <small class="form-text text-muted">Customer's delivery address</small>
+                                </div>
+                            </div>
+                            
+                            <!-- Flight Section -->
+                            <div class="transport-section">
+                                <h5>Flight<span class="info-tag">Airport Codes</span></h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="airport_a">Departure Airport</label>
+                                            <input type="text" class="form-control" id="airport_a" name="airport_a" value="PDX">
+                                            <small class="form-text text-muted">Airport code (e.g., PDX, LAX)</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="airport_b">Arrival Airport</label>
+                                            <input type="text" class="form-control" id="airport_b" name="airport_b" value="LAX">
+                                            <small class="form-text text-muted">Airport code (e.g., JFK, SFO)</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">Calculate Emissions</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 
@@ -233,7 +183,6 @@
                 <div class="card">
                     <div class="card-header bg-success text-white">
                         <h4 class="mb-0">Calculation Results</h4>
-                        <p class="mb-0 mt-1"><small>Detailed results are also logged to the console</small></p>
                     </div>
                     <div class="card-body">
                         <div class="alert alert-info">
@@ -435,11 +384,6 @@
                                                         <strong>Emissions:</strong> {{ "%.2f"|format(delivery.emissions) }} kg CO₂
                                                     </div>
                                                 </div>
-                                                {% if delivery.direct_distance is defined %}
-                                                <div class="text-muted mt-2">
-                                                    <em>Direct distance provided (no address calculation)</em>
-                                                </div>
-                                                {% endif %}
                                                 {% endif %}
                                             </div>
                                         </div>
@@ -498,11 +442,6 @@
                                                         <strong>Emissions:</strong> {{ "%.2f"|format(delivery.emissions) }} kg CO₂
                                                     </div>
                                                 </div>
-                                                {% if delivery.direct_distance is defined %}
-                                                <div class="text-muted mt-2">
-                                                    <em>Direct distance provided (no address calculation)</em>
-                                                </div>
-                                                {% endif %}
                                                 {% endif %}
                                             </div>
                                         </div>
@@ -524,18 +463,46 @@
                                                 Flight #{{ loop.index }}
                                             </div>
                                             <div class="card-body">
-                                                {% if flight.airport_a is defined and flight.airport_b is defined and flight.airport_a is mapping and flight.airport_b is mapping %}
+                                                {% if flight.segments is defined and flight.segments|length > 0 %}
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <strong>Total Distance:</strong> {{ "%.2f"|format(flight.distance) }} miles
+                                                        <strong class="ml-3">Total Emissions:</strong> {{ "%.2f"|format(flight.emissions) }} kg CO₂
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <h6>Flight Segments ({{ flight.segment_count }})</h6>
+                                                {% for segment in flight.segments %}
+                                                <div class="card detail-card">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <strong>Segment {{ loop.index }}:</strong> {{ segment.origin }} to {{ segment.destination }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-2">
+                                                            <div class="col-md-6">
+                                                                <strong>Distance:</strong> {{ "%.2f"|format(segment.distance) }} miles
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <strong>Emissions:</strong> {{ "%.2f"|format(segment.emissions) }} kg CO₂
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                                {% elif flight.origin_info is defined and flight.destination_info is defined %}
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <strong>From:</strong> {{ flight.airport_a.code }}
-                                                        {% if flight.airport_a.formatted_address is defined %}
-                                                        <div class="text-muted small">{{ flight.airport_a.formatted_address }}</div>
+                                                        <strong>From:</strong> {{ flight.origin_info.code }}
+                                                        {% if flight.origin_info.formatted_address is defined %}
+                                                        <div class="text-muted small">{{ flight.origin_info.formatted_address }}</div>
                                                         {% endif %}
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <strong>To:</strong> {{ flight.airport_b.code }}
-                                                        {% if flight.airport_b.formatted_address is defined %}
-                                                        <div class="text-muted small">{{ flight.airport_b.formatted_address }}</div>
+                                                        <strong>To:</strong> {{ flight.destination_info.code }}
+                                                        {% if flight.destination_info.formatted_address is defined %}
+                                                        <div class="text-muted small">{{ flight.destination_info.formatted_address }}</div>
                                                         {% endif %}
                                                     </div>
                                                 </div>
@@ -547,14 +514,6 @@
                                                         <strong>Emissions:</strong> {{ "%.2f"|format(flight.emissions) }} kg CO₂
                                                     </div>
                                                 </div>
-                                                {% if flight.status != 'OK' %}
-                                                <div class="alert alert-warning mt-2 mb-0">
-                                                    <strong>Status:</strong> {{ flight.status }}
-                                                    {% if flight.error is defined %}
-                                                    <br><strong>Error:</strong> {{ flight.error }}
-                                                    {% endif %}
-                                                </div>
-                                                {% endif %}
                                                 {% else %}
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -564,11 +523,14 @@
                                                         <strong>Emissions:</strong> {{ "%.2f"|format(flight.emissions) }} kg CO₂
                                                     </div>
                                                 </div>
-                                                {% if flight.direct_distance is defined %}
-                                                <div class="text-muted mt-2">
-                                                    <em>Direct distance provided (no airport calculation)</em>
-                                                </div>
                                                 {% endif %}
+                                                {% if flight.status != 'OK' %}
+                                                <div class="alert alert-warning mt-2 mb-0">
+                                                    <strong>Status:</strong> {{ flight.status }}
+                                                    {% if flight.error is defined %}
+                                                    <br><strong>Error:</strong> {{ flight.error }}
+                                                    {% endif %}
+                                                </div>
                                                 {% endif %}
                                             </div>
                                         </div>
@@ -611,42 +573,63 @@
                         <p><code>POST /api/calculate</code></p>
                         
                         <h5>Expected Input Format</h5>
-                        <p>The API accepts data in the following format:</p>
+                        <p>The API accepts data in two formats:</p>
+                        
+                        <h6>1. Standard Dictionary Format:</h6>
                         <pre><code>{
   "uber_rides": [
     {"distance": 17.44, "time": "56 minutes"},
     {"distance": 5.2, "time": "15 minutes"}
   ],
   "lyft": [
-    {"distance": 12.3, "time": "30 minutes"}
+    {"distance": 12.3, "time": "30 minutes"},
+    {"pickup_location": "123 Main St", "dropoff_location": "456 Oak St", "time": 15}
   ],
   "uber_eats": [
-    // New format with restaurant and delivery_address
+    // Restaurant and delivery address
     {"restaurant": "Chicken Shanty Corvallis", "delivery_address": "1845 NW Polk Ave, Corvallis, OR"},
-    {"restaurant": "Burgerville USA", "delivery_address": "3725 SW West Hills Rd, Corvallis"},
     // Alternative format with direct distance
     {"distance": 3.7}
   ],
   "doordash": [
-    // New format with restaurant and delivery_address
-    {"restaurant": "Pizza Place", "delivery_address": "789 Home St, City"},
+    // Restaurant and delivery address
+    {"restaurant": "McDonalds", "delivery_address": "789 Home St, City"},
     // Alternative format with direct distance
     {"distance": 2.5}
   ],
   "flights": [
-    {"airport_a": "PDX", "airport_b": "LAX"},
-    {"airport_a": "JFK", "airport_b": "SFO"},
+    // Using segments format (preferred)
+    {"segments": [
+      {"origin": "PDX", "destination": "LAX"}
+    ]},
+    // Multi-segment flight example
+    {"segments": [
+      {"origin": "PDX", "destination": "SEA"},
+      {"origin": "SEA", "destination": "JFK"}
+    ]},
     // Alternative format with direct distance
     {"distance": 2500}
   ]
 }</code></pre>
+
+                        <h6>2. Quickstart Format (List Format):</h6>
+                        <pre><code>[
+  {"type": "Uber Ride", "distance": "17.44", "time": "56"},
+  {"type": "Lyft Ride", "time": 15, "pickup_location": "123 Main St", "dropoff_location": "456 Oak St"},
+  {"type": "Uber Eats", "restaurant": "Chicken Shanty Corvallis", "delivery_address": "1845 NW Polk Ave, Corvallis, OR"},
+  {"type": "Door Dash Order", "restaurant": "McDonalds", "delivery_address": "Empire State Building, New York, NY"},
+  {"type": "flight", "segments": [
+    {"origin": "PDX", "destination": "LAX"},
+    {"origin": "LAX", "destination": "JFK"}
+  ]}
+]</code></pre>
                         
                         <div class="alert alert-warning mt-3">
                             <h5>Google API Integration</h5>
                             <p>For address-based and airport-based distance calculations, make sure to:</p>
                             <ol>
                                 <li>Install the Google Maps library: <code>pip install googlemaps</code></li>
-                                <li>Set your API key as an environment variable: <code>export GOOGLE_API_KEY='your-key-here'</code></li>
+                                <li>Set your API key as an environment variable: <code>export GOOGLE_MAPS='your-key-here'</code></li>
                             </ol>
                             <p class="mb-0">Without this setup, the API will still work with direct distance values, but not with address or airport calculations.</p>
                         </div>
