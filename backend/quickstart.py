@@ -2,6 +2,7 @@ import os.path
 import base64
 import json
 import re
+import quopri
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -46,7 +47,7 @@ def extract_uber_ride_info(email_text):
     subject_pattern = r"Subject: Your [A-Za-z]+ [A-Za-z]+ trip with Uber"
 
     if not re.search(subject_pattern, email_text, re.IGNORECASE):
-        return (None, None)
+        return {} 
     
     min_n_miles_pattern = r"[0-9]*\.[0-9]+ miles \| [0-9]+ min"
     min_n_miles_match = re.search(min_n_miles_pattern, email_text, re.IGNORECASE)
@@ -55,7 +56,84 @@ def extract_uber_ride_info(email_text):
         miles = split[0]
         mins = split[3]
         return {"type" : "Uber Ride", "distance": miles, "time": mins}
-    return (None, None)
+    return {} 
+
+def extract_lyft_ride_info(email_text):
+    """Extract Lyft ride info start and end location using Lyft Receipt"""
+    subject_pattern = r"lyft"
+
+    if not re.search(subject_pattern, email_text, re.IGNORECASE):
+        return {}
+    
+    # Updated pickup pattern
+    pickup_pattern = r"Pickup\s+(\d+:\d+\s+[AP]M)\s+(.*?(?:, [A-Za-z]{2})?)\s*(?=Drop-off|$)"
+    pickup_match = re.search(pickup_pattern, email_text, re.DOTALL)
+    
+    # Add drop-off pattern shoutout regex pattern
+    dropoff_pattern = r"Drop-off\s+(\d+:\d+\s+[AP]M)\s+(.*?(?:, [A-Za-z]{2})?)(?=\s*(?:Ride for work|This and every ride|$))"
+    dropoff_match = re.search(dropoff_pattern, email_text, re.DOTALL)
+    
+    result = {}
+    
+    if pickup_match and dropoff_match:
+    # Extract pickup and dropoff information
+        result['type'] = 'Lyft Ride'
+        result['pickup_location'] = pickup_match.group(2).strip()
+        result['dropoff_location'] = dropoff_match.group(2).strip()
+        
+        # Parse times to calculate duration
+        pickup_time_str = pickup_match.group(1)
+        dropoff_time_str = dropoff_match.group(1)
+        
+        # Convert time strings to datetime objects
+        from datetime import datetime
+        
+        # Parse time strings (e.g., "3:57 PM")
+        pickup_time = datetime.strptime(pickup_time_str, "%I:%M %p")
+        dropoff_time = datetime.strptime(dropoff_time_str, "%I:%M %p")
+        
+        # Handle rides that cross midnight
+        if dropoff_time < pickup_time:
+            dropoff_time = dropoff_time.replace(day=pickup_time.day + 1)
+        
+        # Calculate the time difference in minutes
+        time_diff = dropoff_time - pickup_time
+        total_minutes = int(time_diff.total_seconds() / 60)
+    
+        result['time'] = total_minutes    
+    return result
+
+
+def extract_flight_info(email_text):
+    """Extract flight information from airline confirmation emails"""
+    flight_segments = []
+    VALID_AIRPORTS = {
+        'ATL', 'LAX', 'ORD', 'DFW', 'DEN', 'JFK', 'SFO', 'SEA', 'LAS', 'MCO',
+        'MIA', 'PHX', 'EWR', 'IAH', 'BOS', 'MSP', 'DTW', 'PHL', 'LGA', 'CLT',
+        'BWI', 'SLC', 'SAN', 'IAD', 'DCA', 'MDW', 'TPA', 'PDX', 'HOU', 'BNA',
+        'AUS', 'STL', 'OAK', 'MCI', 'RDU', 'SJC', 'SMF', 'IND', 'CLE', 'PIT',
+        'SAT', 'CVG', 'CMH', 'SNA', 'MKE', 'BDL', 'JAX', 'RSW', 'BUF', 'PVD',
+        'OMA', 'CHS', 'MSY', 'TUL', 'ABQ', 'ALB', 'ROC', 'DAL', 'SDF', 'SYR',
+        'GRR', 'BHM', 'PBI', 'ORF', 'BOI', 'OKC', 'RIC', 'LIT', 'ONT', 'MHT',
+        'PSP', 'FLL', 'DAY', 'GSO', 'FAT', 'ELP', 'TUS', 'ICT', 'BUR', 'ISP',
+        'LBB', 'COS', 'GEG', 'MSN', 'HSV', 'CID', 'CAE', 'PNS', 'DSM', 'SAV',
+        'SBA', 'TYS', 'PWM', 'ECP', 'MYR', 'BZN', 'EUG', 'LGB', 'XNA', 'BTR',
+    }
+
+    valid_codes = []
+    for code in re.findall(r'\b([A-Z]{3})\b', email_text):
+        if code in VALID_AIRPORTS:
+            valid_codes.append(code)
+
+    for i in range(0, len(valid_codes) - 1):
+        origin, destination = valid_codes[i], valid_codes[i+1]
+        if origin != destination:
+            segment = {"origin": origin, "destination": destination}
+            if segment not in flight_segments:
+                flight_segments.append(segment)
+
+    return flight_segments
+
 
 def extract_receipt_info(email_text):
     """Determine email type and extract relevant information"""
@@ -68,6 +146,10 @@ def extract_receipt_info(email_text):
     # Check if Uber ride receipt
     elif "ride with Uber" in email_text:
         return extract_uber_ride_info(email_text)
+    elif "lyft" in email_text:
+        return extract_lyft_ride_info(email_text)
+    elif "Flight" in email_text:
+        return extract_flight_info(email_text)
     else:
         return {"error": "Unknown receipt type"}
 
@@ -154,7 +236,7 @@ def main():
         # stuff is already in json but this should make more sense
         snippet = result['snippet'].lower() 
         #poggers regex
-        if re.search(r'doordash|uber receipt',snippet):
+        if re.search(r'doordash|uber receipt|lyft|confirmation|booking',snippet):
             valid.append(result)
     for msg in valid:
         #print(f"\n--- Message ID: {msg['id']} ---")
